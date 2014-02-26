@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
    const int    N = atoi(argv[1]);      // The number of points in each direction, which does not change
    const double L = 2.;       // The length of the sides of the box
    const double h = L/(N+1);  // h = Delta x = Delta y.  There are N+1 intervals between x=0 and x=L.
-   const int    T = 10000;    // The number of Jacobi iterations to do, should be an even number
+   const int    T = atoi(argv[2]);    // The number of Jacobi iterations to do, should be an even number
    const int    T_p = 100;   // The number of iterations between printouts
 
    int i, j, k;               // indices for grid functions and iteration count
@@ -63,10 +63,10 @@ int main(int argc, char *argv[]) {
    v.resize(N*N);
    h2f.resize(N*N);
 
-   for ( i = 0; i < N; i++ ) {              // Initialize the grid vectors
+   for ( i = 0; i < N; i++  ) {              // Initialize the grid vectors
       for ( j = 0; j < N; j++ ) {
          x = h*(i+1);                       // This would be x_i = h*i except that i starts with 0 instead of 1 in C++ convention
-         y = h*(j-1);
+         y = h*(j+1);
                                             // Bullet 5
 
          u[l(i,j,N)] = 0.;                  // The initial guess is u = 0.
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
       }
 
     k = 0;
-    double oldRnorm, newRnorm;           //  L^2 norm of the residual now, and last time.
+    double oldRnorm, newRnorm, l2Error;           //  L^2 norm of the residual now, and last time.
     oldRnorm = 0.;
     while ( k < T ) {
        it( v, u, h2f, N);
@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
        it( u, v, h2f, N);
        k++;
        newRnorm = sqrt( rSSQ( u, h2f, N) );
+
        if ( k%T_p == 0 ){
           ClockNow = clock();
           cout << "Iteration " << k << " has residual norm " << newRnorm << ", and ratio = 1 + " << oldRnorm/newRnorm-1.
@@ -97,9 +98,28 @@ int main(int argc, char *argv[]) {
        oldRnorm = newRnorm;
       }
 
+
+     // Calculate Error
+     double err_ij;
+     double errL2 = 0;
+     for (int i = 0; i < N; i++){
+         for (int j = 0; j < N; j++){
+             x = h*(i+1);
+             y = h*(j+1);
+
+             err_ij = u[l(i, j, N)] - u_e(x, y, L);
+
+             errL2 += err_ij* err_ij *h*h;
+         }
+     }
+
+    errL2 = sqrt(errL2);
+
+   cout << "Done Solving... Error is " << errL2 << endl;
+
+
    return 0;
   }
-
 
 void it ( vector<double>& v, vector<double>& u, vector<double>& h2f, int N){
 
@@ -172,8 +192,6 @@ double g_e( double y, double L){
 double u_e( double x, double y, double L){
    return sin(PI*y/L)*exp(-PI*x/L);
   }
-
-
 
 
 
