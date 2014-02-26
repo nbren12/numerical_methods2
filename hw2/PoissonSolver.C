@@ -5,6 +5,7 @@
 
 
 #include <iostream>       // so you can use cout
+#include <fstream>       // so you can use cout
 #include <vector>         // so you can use the vector class/template system
 #include <math.h>         // so you can use math functions such as sine and exp
 #include <ctime>          // so you can read the computer time clock
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
    const int    T_p = 100;   // The number of iterations between printouts
 
    int i, j, k;               // indices for grid functions and iteration count
-   int x, y;                  // (x,y) coordinates of the corresponding grid point
+   double x, y;                  // (x,y) coordinates of the corresponding grid point
 
    long int ClockStart = clock();  // look at the clock before you start computing
    long int ClockNow;              // the rest of the clock readings
@@ -76,8 +77,8 @@ int main(int argc, char *argv[]) {
      }
 
     for (j = 0; j < N; j++){             // Put in possibly non-trivial boundary values on the left boundary.
-       y = h*(j-1);
-       h2f[l(0,j,N)] = .25*g_e( y, L);   // The right hand side, which is part of the problem
+       y = h*(j+1);
+       h2f[l(0,j,N)] = -.25*g_e( y, L);   // The right hand side, which is part of the problem
       }
 
     k = 0;
@@ -100,17 +101,28 @@ int main(int argc, char *argv[]) {
 
 
      // Calculate Error
+
+
+    ofstream ufile, uefile; // Declare some file stream objects to write arrays to
+    ufile.open("u.txt", ios::out);
+    uefile.open("ue.txt", ios::out);
+
      double err_ij;
      double errL2 = 0;
      for (int i = 0; i < N; i++){
          for (int j = 0; j < N; j++){
+
              x = h*(i+1);
              y = h*(j+1);
 
-             err_ij = u[l(i, j, N)] - u_e(x, y, L);
+             err_ij = u[l(i, j, N)] - u_e(x, y, L); // signed error between exact and approx soln
 
              errL2 += err_ij* err_ij *h*h;
+             ufile << u[l(i,j,N)] << " " ;   // print approx elem to file
+             uefile << u_e(x, y, L ) << " " ; // print exact elem to file
          }
+         ufile << endl;
+         uefile << endl;
      }
 
     errL2 = sqrt(errL2);
@@ -128,8 +140,8 @@ void it ( vector<double>& v, vector<double>& u, vector<double>& h2f, int N){
    int    i,  j;           // Indices into the u and v arrays
    double ul, ur, ut, ub;  // The u values at neighbor points.  ul (= "u left") = u(i-1,j)
 
-   for ( i = 0; i < N; i++ ) {
-      for ( j = 0; j < N; j++ ) {
+  for ( j = 0; j < N; j++ ) {
+       for ( i = 0; i < N; i++ ) {
 
                                                    // Bullet 6
 
@@ -159,8 +171,8 @@ double rSSQ ( vector<double>& u , vector<double>& h2f, int N) {
 
    RSSQ = 0.;
 
-   for ( i = 0; i < N; i++ ) {
-      for ( j = 0; j < N; j++ ) {
+  for ( j = 0; j < N; j++ ) {
+       for ( i = 0; i < N; i++ ) {
          if ( i == 0 ) ul     = 0;                 // Are you on the left   boundary?
          else          ul     = u[l(i-1,j  ,N)];
          if ( i == (N-1) ) ur = 0;                 // Are you on the right  boundary?
@@ -190,7 +202,7 @@ double g_e( double y, double L){
 
 
 double u_e( double x, double y, double L){
-   return sin(PI*y/L)*exp(-PI*x/L);
+   return sin(PI*y/L)*sinh(PI *(L-x) /L ) / sinh(PI) ;
   }
 
 
