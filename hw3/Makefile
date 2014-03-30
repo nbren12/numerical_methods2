@@ -23,8 +23,8 @@ CCFLAGS = -O2
 
 LINKER  =  g++       # linker, use C++ linker 
 
-PYTHON  = /Users/jg/anaconda/bin/python
-FFMPEG  = /Users/jg/bin/ffmpeg           
+PYTHON  = python
+FFMPEG  = ffmpeg           
 
 #          Lists of files
 
@@ -70,6 +70,7 @@ runOutput.py: CppExecutable             #  If the code has changed, you have to 
 WaveMovie.mpg: runOutput.py PlotFrames.py
 	rm -f WaveMovieFrames/*.png        #  delete any existing frames
 	rm -f WaveMovie.mpg                #  delete the existing movie, if there is one
+	mkdir WaveMovieFrames
 	$(PYTHON) PlotFrames.py 
 	$(FFMPEG) -i WaveMovieFrames/frame%d.png WaveMovie.mpg
 
