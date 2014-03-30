@@ -68,7 +68,7 @@ runOutput.py: CppExecutable             #  If the code has changed, you have to 
 	./CppExecutable
 
 WaveMovie.mpg: runOutput.py PlotFrames.py
-	rm -f WaveMovieFrames/*.png        #  delete any existing frames
+	rm -rf WaveMovieFrames        #  delete any existing frames
 	rm -f WaveMovie.mpg                #  delete the existing movie, if there is one
 	mkdir WaveMovieFrames
 	$(PYTHON) PlotFrames.py 

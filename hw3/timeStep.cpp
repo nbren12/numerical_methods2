@@ -58,9 +58,10 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
 
 
 
-    double g = 9.81;
-    double hbar = 100.0;
+    double g = 1.0 ;
+    double hbar = 1.0;
     double mu  = dt/dx;
+    double mu2  = mu * mu;
     double up, um,u0, hp, hm,h0;
     double bp, bm, b0, bp2, bm2;
     int i  = 0;
@@ -71,11 +72,6 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
     for (i = 1; i < nx + 1; i++)
     {
         v[l(i, 0, nx+2)] = u[l(i-1, 0, nx)];
-    }
-
-
-    for (i = 1; i < nx + 1; i++)
-    {
         v[l(i, 1, nx+2)] = u[l(i-1, 1, nx)];
     }
 
@@ -104,19 +100,17 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
         bp2 = bottom((i-1) * dx + dx/2.0);
 
 
-
-
         // First Order terms
         u[l(i-1, 0, nx)] -=  (mu /2.0)*( g *( hp - hm ) );
-        u[l(i-1, 1, nx)] -=  (mu /2.0)* ( (hp-bp)*up - (hm-bm)*um );
+        u[l(i-1, 1, nx)] -=  (mu /2.0)* ( (hbar-bp)*up - (hbar-bm)*um );
 
 
         // Second order correction
-        u[l(i-1,0, nx)] += (mu * mu /2.0) * g * hbar *( up + um - 2.0*u0 );
-        u[l(i-1,1, nx)] += (mu * mu /2.0) * g * hbar *( hp + hm - 2.0*h0 );
+        u[l(i-1,0, nx)] += (mu2 /2.0) * g * hbar *( up + um - 2.0*u0 );
+        u[l(i-1,1, nx)] += (mu2 /2.0) * g * hbar *( hp + hm - 2.0*h0 );
 
-        u[l(i-1,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
-        u[l(i-1,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
+        // u[l(i-1,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
+        // u[l(i-1,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
 
     }
 }

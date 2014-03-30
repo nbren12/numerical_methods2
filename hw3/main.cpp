@@ -60,7 +60,7 @@ int main(){
          dt = tf/nt;                 // lower dt so exactly nt time steps of size dt fit into tf
 
   for ( int j = 0; j < nx; j++ ){
-    frames[ l(j,0,nx)] = u[j];       // frame zero is the initial data.
+    frames[ l(j,0,nx)] = u[l(j, 1, nx)];       // frame zero is the initial data.
    }
 
   for ( int frame = 1; frame <= nf; frame++){  // to make a frame ...
@@ -69,7 +69,7 @@ int main(){
        timeStep( u, v, dx, dt, nx);
       }
      for ( int j = 0; j < nx; j++) {                 // ... and copy the frame.
-       frames[ l( j, frame, nx)] = u[j];
+       frames[ l( j, frame, nx)] = u[l(j,1,nx)];
       }
     }
 
