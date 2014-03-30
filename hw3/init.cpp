@@ -45,7 +45,7 @@ void init( vector<double>& u,      // initial data, to be set
    }
 
   for ( int j = 0; j < nx; j++ ) {
-    u[l(j, 1, nx)] =  0.5 * u[l(j,0,nx)];
+    u[l(j, 1, nx)] =  1.0 * u[l(j,0,nx)];
    }
 
   sMax = 1.;                        // A real PDE solver would have to put some physics here.

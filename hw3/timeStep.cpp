@@ -46,12 +46,15 @@ void timeStepDemo( vector<double>& u,      // the solution at the current time, 
  }
 
 
-double bottom(double x) {
-    return 0.0 ;
+
+double bottom(double x, double L) {
+    // return ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
+    return 0.0;
 }
 
 void timeStep( vector<double>& u,      // the solution at the current time, replaced by the solution at the next tiome
                vector<double>& v,      // a temp vector
+               double          L,
                double          dx,     // the space step
                double          dt,     // the time step
                int             nx) {   // number of grid points
@@ -93,11 +96,11 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
         hm = v[l(i-1,1,nx+2 )];
         h0 = v[l(i,1,nx+2 )];
 
-        bm = bottom((i-2) * dx);
-        bp = bottom((i) * dx);
-        b0 = bottom((i-1) * dx);
-        bm2 = bottom((i-1) * dx- dx/2.0);
-        bp2 = bottom((i-1) * dx + dx/2.0);
+        bm = bottom((i-2) * dx, L);
+        bp = bottom((i) * dx, L);
+        b0 = bottom((i-1) * dx, L);
+        bm2 = bottom((i-1) * dx- dx/2.0, L);
+        bp2 = bottom((i-1) * dx + dx/2.0, L);
 
 
         // First Order terms
@@ -109,8 +112,8 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
         u[l(i-1,0, nx)] += (mu2 /2.0) * g * hbar *( up + um - 2.0*u0 );
         u[l(i-1,1, nx)] += (mu2 /2.0) * g * hbar *( hp + hm - 2.0*h0 );
 
-        // u[l(i-1,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
-        // u[l(i-1,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
+        u[l(i-1,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
+        u[l(i-1,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
 
     }
 }

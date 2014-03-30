@@ -66,7 +66,7 @@ int main(){
   for ( int frame = 1; frame <= nf; frame++){  // to make a frame ...
 
     for ( int k = 0; k < nt; k++) {                  // ... advance the solution  ...
-       timeStep( u, v, dx, dt, nx);
+       timeStep( u, v, L, dx, dt, nx);
       }
      for ( int j = 0; j < nx; j++) {                 // ... and copy the frame.
        frames[ l( j, frame, nx)] = u[l(j,1,nx)];
