@@ -31,6 +31,8 @@ int main(){
 
   const double L   = 5.;         // Length of the computational interval
   const double T   = 5.;         // Integrate up to this time
+  const double g = 1.0 ;
+  const double hbar = 1.0;
 
   const int    nx  = 2000;         // number of space grid points
   const int    neq = 2;          // Number of equations
@@ -60,13 +62,13 @@ int main(){
          dt = tf/nt;                 // lower dt so exactly nt time steps of size dt fit into tf
 
   for ( int j = 0; j < nx; j++ ){
-    frames[ l(j,0,nx)] = u[l(j, 1, nx)];       // frame zero is the initial data.
+    frames[ l(j,0,nx)] = u[l(j, 0, nx)];       // frame zero is the initial data.
    }
 
   for ( int frame = 1; frame <= nf; frame++){  // to make a frame ...
 
     for ( int k = 0; k < nt; k++) {                  // ... advance the solution  ...
-       timeStep( u, v, L, dx, dt, nx);
+       timeStep( u, v, L, g, hbar, dx, dt, nx);
       }
      for ( int j = 0; j < nx; j++) {                 // ... and copy the frame.
        frames[ l( j, frame, nx)] = u[l(j,1,nx)];

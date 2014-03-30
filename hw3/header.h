@@ -20,14 +20,15 @@ void init( vector<double>& u,     // initial data, to be set
           double          k,      // wave number of the wave packet, see above
           int             nx) ;   // number of grid points
 
+
 void timeStep( vector<double>& u,      // the solution at the current time, replaced by the solution at the next tiome
-              vector<double>& v,      // a temp vector
-              double          L,      // Length of domain
-              double          dx,     // the space step
-              double          dt,     // the time step
-              int             nx) ;   // number of grid points
-
-
+               vector<double>& v,      // a temp vector
+               double          L,
+               double          g,
+               double          hbar,
+               double          dx,     // the space step
+               double          dt,     // the time step
+               int             nx);
 //   Write an array for Python to read
 
 void pyWrite( vector<double>& a,          // The array to be written out

@@ -23,9 +23,10 @@ set u[j] = u_0(x_j)
 #include <iostream>
 #include <math.h>
 #include <vector>         // so you can use the vector class/template system
+#define PI 3.14159265358979323846                       // from the Wikepedia page
+#define l(j,k,nx) ((j) + ((nx)*(k)))    // Lots of harmless parens to avoid confusion
 using namespace std;
 
-#define l(j,k,nx) ((j) + ((nx)*(k)))    // Lots of harmless parens to avoid confusion
 
 void timeStepDemo( vector<double>& u,      // the solution at the current time, replaced by the solution at the next tiome
                vector<double>& v,      // a temp vector
@@ -48,21 +49,21 @@ void timeStepDemo( vector<double>& u,      // the solution at the current time, 
 
 
 double bottom(double x, double L) {
-    // return ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
-    return 0.0;
+    return 1.0 * ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
+    // return 0.0;
 }
 
 void timeStep( vector<double>& u,      // the solution at the current time, replaced by the solution at the next tiome
                vector<double>& v,      // a temp vector
                double          L,
+               double          g,
+               double          hbar,
                double          dx,     // the space step
                double          dt,     // the time step
                int             nx) {   // number of grid points
 
 
 
-    double g = 1.0 ;
-    double hbar = 1.0;
     double mu  = dt/dx;
     double mu2  = mu * mu;
     double up, um,u0, hp, hm,h0;
