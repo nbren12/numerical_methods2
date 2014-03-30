@@ -72,29 +72,33 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
     // Use lax wendroff with the bottom topography
 
     // Handle periodic BC using ghost cells
-    for (i = 1; i < nx + 1; i++)
+    for (i = 0; i < nx ; i++)
     {
-        v[l(i, 0, nx+2)] = u[l(i-1, 0, nx)];
-        v[l(i, 1, nx+2)] = u[l(i-1, 1, nx)];
+        v[l(i, 0, nx)] = u[l(i, 0, nx)];
+        v[l(i, 1, nx)] = u[l(i, 1, nx)];
     }
 
 
-    v[l(0, 0,nx+2)] = u[l(nx, 0, nx)];
-    v[l(0, 1,nx+2)] = u[l(nx, 1, nx)];
-
-    v[l(nx+1, 0,nx+2)] = u[l(0, 0, nx)];
-    v[l(nx+1, 1,nx+2)] = u[l(0, 1, nx)];
-
-
-    for (i = 1; i < nx+1; i++)
+    for (i = 0; i < nx; i++)
     {
-        up = v[l(i+1,0,nx+2 )];
-        um = v[l(i-1,0,nx+2 )];
-        u0 = v[l(i,0,nx+2 )];
+        if (i < nx -1 ) {
+            up = v[l(i+1,0,nx )];
+            hp = v[l(i+1,1,nx )];
+        } else {
+            up = v[l(0,0,nx )];
+            hp = v[l(0,1,nx )];
+        }
 
-        hp = v[l(i+1,1,nx+2 )];
-        hm = v[l(i-1,1,nx+2 )];
-        h0 = v[l(i,1,nx+2 )];
+        if (i > 0 ) {
+            um = v[l(i-1,0,nx )];
+            hm = v[l(i-1,1,nx )];
+        } else {
+            um = v[l(nx-1,0,nx )];
+            hm = v[l(nx-1,1,nx )];
+        }
+
+        u0 = v[l(i,0,nx)];
+        h0 = v[l(i,1,nx)];
 
         bm = bottom((i-2) * dx, L);
         bp = bottom((i) * dx, L);
@@ -104,16 +108,16 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
 
 
         // First Order terms
-        u[l(i-1, 0, nx)] -=  (mu /2.0)*( g *( hp - hm ) );
-        u[l(i-1, 1, nx)] -=  (mu /2.0)* ( (hbar-bp)*up - (hbar-bm)*um );
+        u[l(i  , 0, nx)] -=  (mu /2.0)*( g *( hp - hm ) );
+        u[l(i  , 1, nx)] -=  (mu /2.0)* ( (hbar-bp)*up - (hbar-bm)*um );
 
 
         // Second order correction
-        u[l(i-1,0, nx)] += (mu2 /2.0) * g * hbar *( up + um - 2.0*u0 );
-        u[l(i-1,1, nx)] += (mu2 /2.0) * g * hbar *( hp + hm - 2.0*h0 );
+        u[l(i  ,0, nx)] += (mu2 /2.0) * g * hbar *( up + um - 2.0*u0 );
+        u[l(i  ,1, nx)] += (mu2 /2.0) * g * hbar *( hp + hm - 2.0*h0 );
 
-        u[l(i-1,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
-        u[l(i-1,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
+        u[l(i  ,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
+        u[l(i  ,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
 
     }
 }

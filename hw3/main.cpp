@@ -50,7 +50,7 @@ int main(){
   vector<double> frames;     // Each row is the u value at the corresponding frame time
 
   u.resize(nx * neq);              // Allocate the memory
-  v.resize((nx+2) * neq);           // Allocate memory with ghost cells
+  v.resize(nx * neq);
   frames.resize(nx*(nf+1));  // With the initial data, there are nf+1 frames
 
   init( u, sMax, L, .7*L, .06*L, 30., nx);           // Set initial conditions
