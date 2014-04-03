@@ -26,7 +26,6 @@ fMin       = data['fMin']         #  The smallest u value, for plotting
 fMax       = data['fMax']         #  The largest u value, for plotting
 runString  = data['runString']    #  A string that describes the run
 frames     = data['frames']       #  The curves to be plotted
-frames_exact = data['frames_exact']       #  The curves to be plotted
 
 nf, nx = frames.shape
 print 'nx = %i, nf = %i'%(nx, nf)
