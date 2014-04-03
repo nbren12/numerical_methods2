@@ -67,6 +67,7 @@ int main(){
   double dt = lam*dx/sMax;           // time step, as determined by CFL
   int    nt = 1 + (int) ( tf / dt);  // number of time steps per frame, rounded up.
          dt = tf/nt;                 // lower dt so exactly nt time steps of size dt fit into tf
+  double t, x0;   // the center of the wave packet for exact solution
 
   for ( int j = 0; j < nx; j++ ){
     frames[ l(j,1,nx)] = u[l(j, 1, nx)];       // frame zero is the initial data.
@@ -77,7 +78,10 @@ int main(){
 
     for ( int k = 0; k < nt; k++) {                  // ... advance the solution  ...
        timeStep( u, v, L, g, hbar, bbar, dx, dt, nx);
-       init( u_exact, sMax, L, .7*L - sqrt(g * hbar) * k*dt, .06*L, 30., g, hbar, nx);
+
+       t  = k * dt  + nt * dt * (frame-1);
+       x0 = fmod(fmod(.7*L -sqrt(g *hbar) * t, L)+L,L); // get the current x0 modulo L
+       init( u_exact, sMax, L, x0, .06*L, 30., g, hbar, nx);
       }
      for ( int j = 0; j < nx; j++) {                 // ... and copy the frame.
        frames[ l( j, frame, nx)] = u[l(j,1,nx)];

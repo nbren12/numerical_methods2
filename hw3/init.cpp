@@ -43,7 +43,7 @@ void init( vector<double>& u,      // initial data, to be set
 
   for ( int j = 0; j < nx; j++ ) {
     x    = j*dx;
-    u[l(j, 0, nx)] = exp( - (x-x0)*(x-x0)/(2.*r0*r0) ) * sin(k*x);
+    u[l(j, 0, nx)] = exp( - (x-x0)*(x-x0)/(2.*r0*r0) ) * sin(k*(x-x0));
    }
 
   for ( int j = 0; j < nx; j++ ) {
