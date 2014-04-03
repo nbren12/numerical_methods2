@@ -74,6 +74,9 @@ WaveMovie.mpg: runOutput.py PlotFrames.py
 	$(PYTHON) PlotFrames.py 
 	$(FFMPEG) -i WaveMovieFrames/frame%d.png WaveMovie.mpg
 
+WaveMovie.mp4: runOutput.py PlotFrames.py
+	$(PYTHON) PlotFrames.py 
+
 tarball: $( All_SOURCES)  
 	tar -cvf Assignment3.tar $(ALL_SOURCES) 
 

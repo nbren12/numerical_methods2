@@ -28,17 +28,13 @@ runString  = data['runString']    #  A string that describes the run
 frames     = data['frames']       #  The curves to be plotted
 frames_exact = data['frames_exact']       #  The curves to be plotted
 
-[nf,nx] = frames.shape
+nf, nx = frames.shape
+print 'nx = %i, nf = %i'%(nx, nf)
 
-print 'nx = ' + str(nx)+ ", nf = " + str(nf)
+xm = np.linspace(0, L, nx, endpoint=False)
 
-fm  = np.zeros( nx, np.float64)   # the curve data, in floating point
-xm  = np.zeros( nx, np.float64)   # x values, for plotting
 
-dx = ( float(L)/float(nx-1))      # L might be an integer
-for j in range(0,nx):
-    xm[j] = j*dx
-
+# Create initial plot
 
 fig, ax = plt.subplots(1)
 curve1, = ax.plot(xm, frames[0,:], linewidth=5.0, color= 'k', alpha=.5)
@@ -50,10 +46,18 @@ textbox=  plt.text(.1*L, .9*fMax, textString)
 plt.title(runString)
 
 
-for frame in range(0,nf):
+def updatefig(frame):
+    """
+    Will pass this function to update plot to FuncAnimation
+    """
+    print frame
     curve1.set_ydata(frames[frame,:])
     FrameFileName = "WaveMovieFrames/frame%i.png"%frame
     textString = 'frame %i, elapsed time: %f'%(frame, frame*tf)
     textbox.set_text(textString)
-    fig.savefig(FrameFileName)
-    print "saved file " + FrameFileName
+
+    return curve1,
+
+ani = animation.FuncAnimation(fig, updatefig, xrange(nf), interval=75, blit=True)
+ani.save('WaveMovie.mp4')
+
