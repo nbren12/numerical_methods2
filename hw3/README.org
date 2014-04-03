@@ -1,4 +1,5 @@
 #+TITLE: Lex-Wendroff Linear Shallow Water solver
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
 #+OPTIONS: toc:nil
 
 
@@ -114,7 +115,9 @@ I first ran the code with constant bottom topography, for long time \(T
 = 40\). While the scheme performs quite well, beginning around
 \(T=20\), the exact solution (blue) begins to diverge from the
 approximate solution (gray). This effect can be seen in the image below:
+
 [[file:Wave_numerical_dispersion.png]]
+
 Notably, this does not appear to be a /numerical diffusion/, which would
 reduces the peaks in the approximate solution, but more of a
 /numerical dispersion/, which disperses the peaks. In this case it,
@@ -125,7 +128,9 @@ propogation. This is what one expects from a second-order scheme.
 Then, I added bottom topography, consisting of a sharp jutting up of
 the sea floor which reaches 50% of the way to the surface. The plot
 below shows a snapshot of the height field deviation (gray) and bottom topography (blue).
+
 [[file:bottom_frame50.png]]
+
 Here, the larger wave packet on the left propogates to the left, and
 the smaller wavepacket, which split off from the main packet as it
 passed over the topography, propogates to the right. Of course, these
