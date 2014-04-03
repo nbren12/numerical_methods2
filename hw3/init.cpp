@@ -39,11 +39,21 @@ void init( vector<double>& u,      // initial data, to be set
 
   const double dx = L/(nx-1);      // so x_0 = 0 and x_{nx-1} = L
 
-  double x;
+  double x, xmx0;
 
   for ( int j = 0; j < nx; j++ ) {
     x    = j*dx;
-    u[l(j, 0, nx)] = exp( - (x-x0)*(x-x0)/(2.*r0*r0) ) * sin(k*(x-x0));
+    xmx0  = x-x0;
+
+    if ( fabs(xmx0) < L /2.0){
+        xmx0 = x- x0;
+    } else if (xmx0 > 0) {
+        xmx0 = x - (x0 + L);
+    } else {
+        xmx0 = x + L - x0;
+    }
+
+    u[l(j, 0, nx)] = exp( - (xmx0)*(xmx0)/(2.*r0*r0) ) * sin(k*(xmx0));
    }
 
   for ( int j = 0; j < nx; j++ ) {
