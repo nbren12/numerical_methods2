@@ -9,6 +9,8 @@
 #   serious bugs.  Results may be inaccurate, incorrect, or just wrong.
 
 B = .5
+T = 5
+TF =.3
 
 SUFFIXES :=
 %.cpp:
@@ -44,9 +46,9 @@ FOR_ALL   = Makefile header.h
 ALL_SOURCES = $(CPP_SOURCES) $(P_SOURCES) Makefile  header.h 
 
 all : 
-	$(MAKE) B=0 WaveMovie_exact.mp4
+	$(MAKE) WaveMovie_bottom.mp4 B=.5 T=5 TF=.03
 	rm runOutput.py
-	$(MAKE) B=.5 WaveMovie.mp4
+	$(MAKE)  WaveMovie_exact.mp4 B=0 T=40 TF=.1
 
 #        compiling and linking (building) instructions, all manual, no implicit rules
 
@@ -70,7 +72,7 @@ CppExecutable: main.o timeStep.o init.o pyWrite.o
 
 
 runOutput.py: CppExecutable             #  If the code has changed, you have to re-run it.
-	./CppExecutable $(B)
+	./CppExecutable $(B) $(T) $(TF)
 
 WaveMovie.mpg: runOutput.py PlotFrames.py
 	rm -rf WaveMovieFrames        #  delete any existing frames
@@ -83,6 +85,9 @@ WaveMovie.mp4: runOutput.py PlotFrames.py
 	$(PYTHON) PlotFrames.py 
 
 WaveMovie_exact.mp4:  PlotExactFrames.py runOutput.py
+	$(PYTHON) $< 
+
+WaveMovie_bottom.mp4:  PLot_Bottom_Frames.py runOutput.py
 	$(PYTHON) $< 
 
 tarball: $( All_SOURCES)  

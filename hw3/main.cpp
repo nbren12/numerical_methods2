@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 // Specified run parameters
 
   const double L   = 5.;         // Length of the computational interval
-  const double T   = 5.;         // Integrate up to this time
+  const double T   = atof(argv[2]);         // Integrate up to this time
   const double g = 1.0 ;
   const double hbar = 1.0;
   const double bbar = atof(argv[1]);      // relative size of bottom topography compared to mean height
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
   const double lam = .8;         // the CFL ratio
         double sMax;             // fastest wave speed in the problem, to be computed
 
-  const double tf  = .03;         // time interval between frames
+  const double tf  = atof(argv[3]);         // time interval between frames
 
 //   run setup
 
