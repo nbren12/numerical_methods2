@@ -14,6 +14,7 @@
 import runOutput         as ro
 import numpy             as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import string as st
 
 #   copy the data elements to interman python variables with the same names
@@ -25,6 +26,7 @@ fMin       = data['fMin']         #  The smallest u value, for plotting
 fMax       = data['fMax']         #  The largest u value, for plotting
 runString  = data['runString']    #  A string that describes the run
 frames     = data['frames']       #  The curves to be plotted
+frames_exact = data['frames_exact']       #  The curves to be plotted
 
 [nf,nx] = frames.shape
 
@@ -38,18 +40,20 @@ for j in range(0,nx):
     xm[j] = j*dx
 
 
+fig, ax = plt.subplots(1)
+curve1, = ax.plot(xm, frames[0,:], linewidth=5.0, color= 'k', alpha=.5)
+plt.axis([0., L, fMin, fMax])
+plt.grid(axis='both')
+frame = 0
+textString = 'frame %i, elapsed time: %f'%(frame, frame*tf)
+textbox=  plt.text(.1*L, .9*fMax, textString)
+plt.title(runString)
+
+
 for frame in range(0,nf):
-    plt.figure( frame)
-    for j in range(0,nx):
-        fm[j] = frames[frame,j]
-    curve1  = plt.plot(xm, fm)
-    plt.setp( curve1, 'linewidth', 5., 'color', 'k', 'alpha', .5)
-    plt.axis([0., L, fMin, fMax])
-    plt.grid(axis='both')
-    plt.title(runString)
-    textString = 'frame ' + str(frame) + ', elapsed time: ' + str(frame*tf)
-    plt.text(.1*L, .9*fMax, textString)
-    FrameFileName = "WaveMovieFrames/frame" + str(frame) + ".png"
-    plt.savefig(FrameFileName)
-    plt.close(frame)
+    curve1.set_ydata(frames[frame,:])
+    FrameFileName = "WaveMovieFrames/frame%i.png"%frame
+    textString = 'frame %i, elapsed time: %f'%(frame, frame*tf)
+    textbox.set_text(textString)
+    fig.savefig(FrameFileName)
     print "saved file " + FrameFileName
