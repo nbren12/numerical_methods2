@@ -1,0 +1,136 @@
+#+TITLE: Lex-Wendroff Linear Shallow Water solver
+#+OPTIONS: toc:nil
+
+
+* Changes to code
+
+I altered several parts of the code, and my complete code can be seen
+in the =hw3= folder of my course code repository: [[https://github.com/nbren12/numerical_methods2]]
+
+1. Added a time stepping routine using a Lax-Wendroff scheme with
+   centered differences:
+    \begin{align*}
+    u^+_j =  u_j &- \frac{\lambda}{2} g ( h_{j+1} - h_{j-1})\\ 
+    &+ \frac{\lambda^2}{2} g \bar{h} (u_{j+1}+u_{j-1}-2 u_{j})\\
+    &- \frac{\lambda^2}{2} g \left[(bu)_{j+1} + (bu)_{j-1} - 2 (bu)_{j}\right]\\
+    h^+_j =  h_j &- \frac{\lambda}{2} g \left[ ((\bar{h} - b)u)_{j+1}- ((\bar{h} - b)u)_{j-1}\right]\\ 
+    &+ \frac{\lambda^2}{2} g \bar{h} (u_{j+1}+u_{j-1}-2 u_{j})\\
+    &- \frac{\lambda^2}{2} g \left[ b_{j+\frac{1}{2}} (h_{j+1}-h_j) - b_{j-\frac{1}{2}} ( h_{j} -h_{j-1} ) \right] 
+    \end{align*}
+   Notice that the \(b_{j+\frac{1}{2}}\) terms are evaulated at the
+   midpoint between lattice points.  This scheme can be derived in a
+   straight forward fashion from the 1D Lax-Wendroff scheme given in
+   [[http://www.amazon.com/Methods-Hyperbolic-Problems-Cambridge-Mathematics/dp/0521009243][LeVeque.]]  An alteranate approach, would be to consider the bottom
+   topography as a source term, and treat it with via /operator
+   splitting/.
+2. Added a function for outputting bottom topography
+3. Changed the =init= function to create a left going wave, by setting \( h_0 = - \sqrt{\frac{g}{\bar{H}}} u_0\)
+4. Improved the plotting routines using =matplotlib.animation=
+   functionality (about a 10x speedup compared to the original code)
+5. Added new targets to the =Makefile= for this homework.
+   
+The main part of the new coding was in altering the time stepping
+routine, to contain an actual numerical scheme:
+#+BEGIN_SRC C
+
+void timeStep( vector<double>& u,      // the solution at the current time, replaced 
+                                       //by the solution at the next tiome
+               vector<double>& v,      // a temp vector
+               double          L,
+               double          g,
+               double          hbar,
+               double          bbar,   // max relative size of bottom topography
+               double          dx,     // the space step
+               double          dt,     // the time step
+               int             nx) {   // number of grid points
+
+
+
+    double mu  = dt/dx;
+    double mu2  = mu * mu;
+    double up, um,u0, hp, hm,h0;
+    double bp, bm, b0, bp2, bm2;
+    int i  = 0;
+
+    // Use lax wendroff with the bottom topography
+
+    // Handle periodic BC using ghost cells
+    for (i = 0; i < nx ; i++)
+    {
+        v[l(i, 0, nx)] = u[l(i, 0, nx)];
+        v[l(i, 1, nx)] = u[l(i, 1, nx)];
+    }
+
+
+    for (i = 0; i < nx; i++)
+    {
+        if (i < nx -1 ) {
+            up = v[l(i+1,0,nx )];
+            hp = v[l(i+1,1,nx )];
+        } else {
+            up = v[l(0,0,nx )];
+            hp = v[l(0,1,nx )];
+        }
+
+        if (i > 0 ) {
+            um = v[l(i-1,0,nx )];
+            hm = v[l(i-1,1,nx )];
+        } else {
+            um = v[l(nx-1,0,nx )];
+            hm = v[l(nx-1,1,nx )];
+        }
+
+        u0 = v[l(i,0,nx)];
+        h0 = v[l(i,1,nx)];
+
+        bm = bottom((i-2) * dx, L, hbar * bbar);
+        bp = bottom((i) * dx, L, hbar * bbar);
+        b0 = bottom((i-1) * dx, L, hbar * bbar);
+        bm2 = bottom((i-1) * dx- dx/2.0, L, hbar * bbar);
+        bp2 = bottom((i-1) * dx + dx/2.0, L, hbar * bbar);
+
+
+        // First Order terms
+        u[l(i  , 0, nx)] -=  (mu /2.0)*( g *( hp - hm ) );
+        u[l(i  , 1, nx)] -=  (mu /2.0)* ( (hbar-bp)*up - (hbar-bm)*um );
+
+
+        // Second order correction
+        u[l(i  ,0, nx)] += (mu2 /2.0) * g * hbar *( up + um - 2.0*u0 );
+        u[l(i  ,1, nx)] += (mu2 /2.0) * g * hbar *( hp + hm - 2.0*h0 );
+
+        u[l(i  ,0,nx)]  -= (mu * mu /2.0) * g *( bp * up + bm*um - 2.0*b0*u0 );
+        u[l(i  ,1,nx)]  -= (mu * mu/ 2.0) * g *( bp2 * (hp -h0) -bm2 * (h0-hm) );
+
+    }
+}
+
+
+#+END_SRC
+
+* Discussion of Results
+
+I first ran the code with constant bottom topography, for long time \(T
+= 40\). While the scheme performs quite well, beginning around
+\(T=20\), the exact solution (blue) begins to diverge from the
+approximate solution (gray). This effect can be seen in the image below:
+[[file:Wave_numerical_dispersion.png]]
+Notably, this does not appear to be a /numerical diffusion/, which would
+reduces the peaks in the approximate solution, but more of a
+/numerical dispersion/, which disperses the peaks. In this case it,
+tilts the wave to the right, in the opposite direction of the
+propogation. This is what one expects from a second-order scheme.
+
+
+Then, I added bottom topography, consisting of a sharp jutting up of
+the sea floor which reaches 50% of the way to the surface. The plot
+below shows a snapshot of the height field deviation (gray) and bottom topography (blue).
+[[file:bottom_frame50.png]]
+Here, the larger wave packet on the left propogates to the left, and
+the smaller wavepacket, which split off from the main packet as it
+passed over the topography, propogates to the right. Of course, these
+parameter regimes are highly unrealistic for the actually ocean
+because the Froude number \(Fr = U/\sqrt{ g \bar{H}} \approx =1\) for
+this intial data.
+
+Video files are available upon request.
