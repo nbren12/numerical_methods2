@@ -51,11 +51,11 @@ int main(){
   vector<double> v;          // The solution at the next time step, scratch storage
   vector<double> frames;     // Each row is the u value at the corresponding frame time
 
-  u.resize(nx * neq);              // Allocate the memory
+  u.resize(nx * neq);              // Allocate the memory, first nx is velocity, second nx is height
   v.resize(nx * neq);
   frames.resize(nx*(nf+1));  // With the initial data, there are nf+1 frames
 
-  init( u, sMax, L, .7*L, .06*L, 30., nx);           // Set initial conditions
+  init( u, sMax, L, .7*L, .06*L, 30., g, hbar, nx);           // Set initial conditions
 
   double dt = lam*dx/sMax;           // time step, as determined by CFL
   int    nt = 1 + (int) ( tf / dt);  // number of time steps per frame, rounded up.

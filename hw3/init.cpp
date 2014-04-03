@@ -33,6 +33,8 @@ void init( vector<double>& u,      // initial data, to be set
            double          x0,     // center of the wave packet, see above
            double          r0,     // half width of the wave packet, see above
            double          k,      // wave number of the wave packet, see above
+           double          g,      // gravity
+           double          hbar,   // mean height
            int             nx) {   // number of grid points
 
   const double dx = L/(nx-1);      // so x_0 = 0 and x_{nx-1} = L
@@ -45,10 +47,10 @@ void init( vector<double>& u,      // initial data, to be set
    }
 
   for ( int j = 0; j < nx; j++ ) {
-    u[l(j, 1, nx)] =  -1.0 * u[l(j,0,nx)];
+    u[l(j, 1, nx)] = - sqrt (g / hbar ) * u[l(j,0,nx)];
    }
 
-  sMax = 1.;                        // A real PDE solver would have to put some physics here.
+  sMax = sqrt ( g * hbar );                        // A real PDE solver would have to put some physics here.
 
   return;
  }

@@ -12,14 +12,15 @@
 
 // Assume the generic headers have been given already
 
-void init( vector<double>& u,     // initial data, to be set
-          double&         sMax,   // fastest speed in the problem, to be computed
-          double          L,      // length of the computational interval
-          double          x0,     // center of the wave packet, see above
-          double          r0,     // half width of the wave packet, see above
-          double          k,      // wave number of the wave packet, see above
-          int             nx) ;   // number of grid points
-
+void init( vector<double>& u,      // initial data, to be set
+           double&         sMax,   // fastest speed in the problem, to be computed
+           double          L,      // length of the computational interval
+           double          x0,     // center of the wave packet, see above
+           double          r0,     // half width of the wave packet, see above
+           double          k,      // wave number of the wave packet, see above
+           double          g,      // gravity
+           double          hbar,   // mean height
+           int             nx) ;
 
 void timeStep( vector<double>& u,      // the solution at the current time, replaced by the solution at the next tiome
                vector<double>& v,      // a temp vector
