@@ -50,11 +50,17 @@ int main(){
 
   vector<double> u;          // The solution at the current time step
   vector<double> v;          // The solution at the next time step, scratch storage
-  vector<double> frames;     // Each row is the u value at the corresponding frame time
+  vector<double> frames;    // Each row is the h value at the corresponding frame time (approx)
+
+  vector<double> u_exact;          // The solution at the next time step, scratch storage
+  vector<double> frames_exact;    // Each row is the h value at the corresponding frame time (exact)
 
   u.resize(nx * neq);              // Allocate the memory, first nx is velocity, second nx is height
   v.resize(nx * neq);
   frames.resize(nx*(nf+1));  // With the initial data, there are nf+1 frames
+
+  u_exact.resize(nx * neq);        // Allocate the memory, first nx is velocity, second nx is height
+  frames_exact.resize(nx*(nf+1));  // With the initial data, there are nf+1 frames
 
   init( u, sMax, L, .7*L, .06*L, 30., g, hbar, nx);           // Set initial conditions
 
@@ -63,16 +69,19 @@ int main(){
          dt = tf/nt;                 // lower dt so exactly nt time steps of size dt fit into tf
 
   for ( int j = 0; j < nx; j++ ){
-    frames[ l(j,0,nx)] = u[l(j, 0, nx)];       // frame zero is the initial data.
+    frames[ l(j,1,nx)] = u[l(j, 1, nx)];       // frame zero is the initial data.
+    frames_exact[ l(j,1,nx)] = u[l(j, 1, nx)];       // frame zero is the initial data.
    }
 
   for ( int frame = 1; frame <= nf; frame++){  // to make a frame ...
 
     for ( int k = 0; k < nt; k++) {                  // ... advance the solution  ...
        timeStep( u, v, L, g, hbar, bbar, dx, dt, nx);
+       init( u_exact, sMax, L, .7*L - sqrt(g * hbar) * k*dt, .06*L, 30., g, hbar, nx);
       }
      for ( int j = 0; j < nx; j++) {                 // ... and copy the frame.
        frames[ l( j, frame, nx)] = u[l(j,1,nx)];
+       frames_exact[ l( j, frame, nx)] = u_exact[l(j,1,nx)];
       }
     }
 
@@ -103,6 +112,7 @@ int main(){
   runOutput << pyIndent << "data[ 'runString' ] = runString "  << endl;
 
   pyWrite( frames, "frames", pyIndent, nf, nx, runOutput);
+  pyWrite( frames_exact, "frames_exact", pyIndent, nf, nx, runOutput);
 
   runOutput << pyIndent << "return data"             << endl;
 
