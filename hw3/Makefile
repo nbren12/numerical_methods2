@@ -8,6 +8,8 @@
 #   or commercial use.  It has not been tested thoroughly and probably has
 #   serious bugs.  Results may be inaccurate, incorrect, or just wrong.
 
+B = .5
+
 SUFFIXES :=
 %.cpp:
 %.o:
@@ -65,7 +67,7 @@ CppExecutable: main.o timeStep.o init.o pyWrite.o
 
 
 runOutput.py: CppExecutable             #  If the code has changed, you have to re-run it.
-	./CppExecutable
+	./CppExecutable $(B)
 
 WaveMovie.mpg: runOutput.py PlotFrames.py
 	rm -rf WaveMovieFrames        #  delete any existing frames
@@ -76,6 +78,9 @@ WaveMovie.mpg: runOutput.py PlotFrames.py
 
 WaveMovie.mp4: runOutput.py PlotFrames.py
 	$(PYTHON) PlotFrames.py 
+
+WaveMovie_exact.mp4:  PlotExactFrames.py runOutput.py
+	$(PYTHON) $< 
 
 tarball: $( All_SOURCES)  
 	tar -cvf Assignment3.tar $(ALL_SOURCES) 

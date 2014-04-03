@@ -16,6 +16,7 @@ serious bugs.  Results may be inaccurate, incorrect, or just wrong. */
 #include <string.h>
 #include <vector>         // so you can use the vector class/template system
 #include <ctime>          // so you can read the computer time clock
+#include <stdlib.h>     /* atof */
 
 using namespace std;
 
@@ -23,9 +24,9 @@ using namespace std;
 
 #define l(j,k,nx) ((j) + ((nx)*(k)))    // Lots of harmless parens to avoid confusion
 
-int main(){
+int main(int argc, char *argv[]){
 
-  cout << "hello, movie world" << endl;
+  cout << "Hello, from Shallow Water Solver!" << endl;
 
 // Specified run parameters
 
@@ -33,7 +34,7 @@ int main(){
   const double T   = 5.;         // Integrate up to this time
   const double g = 1.0 ;
   const double hbar = 1.0;
-  const double bbar = 0.5;      // relative size of bottom topography compared to mean height
+  const double bbar = atof(argv[1]);      // relative size of bottom topography compared to mean height
 
   const int    nx  = 2000;         // number of space grid points
   const int    neq = 2;          // Number of equations
