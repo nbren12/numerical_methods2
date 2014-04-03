@@ -48,8 +48,8 @@ void timeStepDemo( vector<double>& u,      // the solution at the current time, 
 
 
 
-double bottom(double x, double L) {
-    return 1.0 * ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
+double bottom(double x, double L, double hbar) {
+    return hbar * .5 * ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
     // return 0.0;
 }
 
@@ -101,11 +101,11 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
         u0 = v[l(i,0,nx)];
         h0 = v[l(i,1,nx)];
 
-        bm = bottom((i-2) * dx, L);
-        bp = bottom((i) * dx, L);
-        b0 = bottom((i-1) * dx, L);
-        bm2 = bottom((i-1) * dx- dx/2.0, L);
-        bp2 = bottom((i-1) * dx + dx/2.0, L);
+        bm = bottom((i-2) * dx, L, hbar);
+        bp = bottom((i) * dx, L, hbar);
+        b0 = bottom((i-1) * dx, L, hbar);
+        bm2 = bottom((i-1) * dx- dx/2.0, L, hbar);
+        bp2 = bottom((i-1) * dx + dx/2.0, L, hbar);
 
 
         // First Order terms
