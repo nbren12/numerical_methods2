@@ -35,21 +35,21 @@ xm  = np.zeros( nx, np.float64)   # x values, for plotting
 
 dx = ( float(L)/float(nx-1))      # L might be an integer
 for j in range(0,nx):
-  xm[j] = j*dx
+    xm[j] = j*dx
 
 
 for frame in range(0,nf):
-  plt.figure( frame)
-  for j in range(0,nx):
-      fm[j] = frames[frame,j]
-  curve1  = plt.plot(xm, fm)
-  plt.setp( curve1, 'linewidth', 5., 'color', 'k', 'alpha', .5)
-  plt.axis([0., L, fMin, fMax])
-  plt.grid(axis='both')
-  plt.title(runString)
-  textString = 'frame ' + str(frame) + ', elapsed time: ' + str(frame*tf)
-  plt.text(.1*L, .9*fMax, textString)
-  FrameFileName = "WaveMovieFrames/frame" + str(frame) + ".png"
-  plt.savefig(FrameFileName)
-  plt.close(frame)
-  print "saved file " + FrameFileName
+    plt.figure( frame)
+    for j in range(0,nx):
+        fm[j] = frames[frame,j]
+    curve1  = plt.plot(xm, fm)
+    plt.setp( curve1, 'linewidth', 5., 'color', 'k', 'alpha', .5)
+    plt.axis([0., L, fMin, fMax])
+    plt.grid(axis='both')
+    plt.title(runString)
+    textString = 'frame ' + str(frame) + ', elapsed time: ' + str(frame*tf)
+    plt.text(.1*L, .9*fMax, textString)
+    FrameFileName = "WaveMovieFrames/frame" + str(frame) + ".png"
+    plt.savefig(FrameFileName)
+    plt.close(frame)
+    print "saved file " + FrameFileName
