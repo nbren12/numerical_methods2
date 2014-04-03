@@ -48,8 +48,8 @@ void timeStepDemo( vector<double>& u,      // the solution at the current time, 
 
 
 
-double bottom(double x, double L, double hbar) {
-    return hbar * .5 * ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
+double bottom(double x, double L, double bbar) {
+    return bbar  * ( x > 9.0/20.0 * L) * (x < 11.0/20.0 * L) * sin( 4 * PI / L * ( x - 9.0/20.0 * L ) );
     // return 0.0;
 }
 
@@ -58,6 +58,7 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
                double          L,
                double          g,
                double          hbar,
+               double          bbar,   // max relative size of bottom topography
                double          dx,     // the space step
                double          dt,     // the time step
                int             nx) {   // number of grid points
@@ -101,11 +102,11 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
         u0 = v[l(i,0,nx)];
         h0 = v[l(i,1,nx)];
 
-        bm = bottom((i-2) * dx, L, hbar);
-        bp = bottom((i) * dx, L, hbar);
-        b0 = bottom((i-1) * dx, L, hbar);
-        bm2 = bottom((i-1) * dx- dx/2.0, L, hbar);
-        bp2 = bottom((i-1) * dx + dx/2.0, L, hbar);
+        bm = bottom((i-2) * dx, L, hbar * bbar);
+        bp = bottom((i) * dx, L, hbar * bbar);
+        b0 = bottom((i-1) * dx, L, hbar * bbar);
+        bm2 = bottom((i-1) * dx- dx/2.0, L, hbar * bbar);
+        bp2 = bottom((i-1) * dx + dx/2.0, L, hbar * bbar);
 
 
         // First Order terms

@@ -27,6 +27,7 @@ void timeStep( vector<double>& u,      // the solution at the current time, repl
                double          L,
                double          g,
                double          hbar,
+               double          bbar,
                double          dx,     // the space step
                double          dt,     // the time step
                int             nx);
