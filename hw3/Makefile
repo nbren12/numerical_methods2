@@ -46,8 +46,9 @@ FOR_ALL   = Makefile header.h
 ALL_SOURCES = $(CPP_SOURCES) $(P_SOURCES) Makefile  header.h 
 
 all : 
+	rm -f runOutput.py
 	$(MAKE) WaveMovie_bottom.mp4 B=.5 T=5 TF=.03
-	rm runOutput.py
+	rm -f runOutput.py
 	$(MAKE)  WaveMovie_exact.mp4 B=0 T=40 TF=.1
 
 #        compiling and linking (building) instructions, all manual, no implicit rules
