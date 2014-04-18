@@ -44,28 +44,3 @@ void exact_soln (double x[], double t){
     x[0] = sin( 2.0 * t );
     x[1] = cos( 2.0 * t );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
