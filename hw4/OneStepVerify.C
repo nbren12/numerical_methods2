@@ -48,7 +48,7 @@ int main(int argc, char** argv){
         err1 = 0.0;
         err1 =pow( x0[0] + dx[0] - x_exact[0],2 );
         err1 += pow( x0[1] + dx[1] - x_exact[1],2 );
-        err1 = sqrt(err1);
+        err1 = sqrt(err1); // Is this sqrt correct? Ratio is 4 without sqrt
 
         if (i == 0 ) {
             err0 = err1;
