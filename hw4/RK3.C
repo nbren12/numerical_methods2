@@ -28,13 +28,13 @@ using namespace std;
 
 //   The Runge Kutta coefficients
 
-#define alpha .5
-#define beta  -1.0
-#define gamma  2.0
+#define alpha 1.0
+#define beta  1.0/4.0
+#define gamma 1.0/4.0
 
 #define a1    1.0/6.0
-#define a2    2.0/3.0
-#define a3    1.0/6.0
+#define a2    1.0/6.0
+#define a3    2.0/3.0
 
 void RK3( double dx[], double x[],  double dt, int n,
           double v1[], double v2[], double v3[]){
