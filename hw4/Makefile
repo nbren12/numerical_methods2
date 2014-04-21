@@ -76,9 +76,12 @@ nBodyExecutable: PlanetMovie.o fnb.o RK3.o
 OneStepVerifyExecutable: OneStepVerify.o f2D.o RK3.o
 	$(CPP)  $(CCFLAGS) OneStepVerify.o f2D.o RK3.o -o OneStepVerifyExecutable
 
+FixedStepVerifyExecutable: FixedStepVerify.o f2D.o RK3.o
+	$(CPP)  $(CCFLAGS) FixedStepVerify.o f2D.o RK3.o -o FixedStepVerifyExecutable
 
 #               Running executables
 
+.PHONY: nBodyMovie OneStepVerify FixedStepVerify tarball
 
 nBodyMovie: nBodyExecutable     #  If the code has changed, you have to re-run it.
 	./nBodyExecutable
@@ -86,6 +89,8 @@ nBodyMovie: nBodyExecutable     #  If the code has changed, you have to re-run i
 OneStepVerify: OneStepVerifyExecutable    
 	./OneStepVerifyExecutable
 
+FixedStepVerify: FixedStepVerifyExecutable    
+	./FixedStepVerifyExecutable
 
 
 tarball: $( All_SOURCES)  
