@@ -54,7 +54,7 @@ fnb.o: fnb.C $(FOR_ALL)
 #   One step tester
 
 OneStepVerify.o: OneStepVerify.C  $(FOR_ALL)
-	$(CPP) -c $(CCFLAGS) OneStepVerify.o  
+	$(CPP) -c $(CCFLAGS) OneStepVerify.C  
 
 f2D.o: f2D.C $(FOR_ALL)
 	$(CPP) -c $(CCFLAGS) f2D.C
