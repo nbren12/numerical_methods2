@@ -54,7 +54,7 @@ int main(int argc, char** argv){
             err0 = err1;
             continue;
         } else {
-            cout << "Step Size is "<< hTmp << " Ratio is " << err0 / err1 << endl;
+            cout << "Step Size is "<< hTmp << " Error is " << err1 << " Ratio is " << err0 / err1 << endl;
             err0 = err1;
         }
 
