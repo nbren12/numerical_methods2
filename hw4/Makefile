@@ -92,6 +92,8 @@ OneStepVerify: OneStepVerifyExecutable
 FixedStepVerify: FixedStepVerifyExecutable    
 	./FixedStepVerifyExecutable
 
+UnitTest: FixedStepVerify OneStepVerify
+
 
 tarball: $( All_SOURCES)  
 	tar -cvf Assignment4.tar $(ALL_SOURCES) 
