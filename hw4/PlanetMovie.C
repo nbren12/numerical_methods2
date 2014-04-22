@@ -12,6 +12,7 @@ serious bugs.  Results may be inaccurate, incorrect, or just wrong. */
 
 #include <math.h>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "header.h"
@@ -21,8 +22,9 @@ int main(){
 
   cout << "hello, n bodies.  Interact." << endl;
 
-  int p = 3;
+  int p = 2;
   int n = 4*p;
+  double T = 4.0;
   double dt = .1;
 
   double *x;             //  The computed configuration at time t
@@ -36,16 +38,20 @@ int main(){
 
   init(x);               // Initialize the time step routine once
 
-  int nt = 3;           // Compute the number of time steps from the final time and dt.
+  ofstream outfile;
+  outfile.open("nbody.txt");
+  outfile << p << " " << T << " " << dt << endl;
+
+  int nt = (int) T / dt;           // Compute the number of time steps from the final time and dt.
   for ( int i = 0; i < nt; i++){
      RK3( dx, x, dt, n, v1, v2, v3);
      for ( int j = 0; j < n; j++){
         x[j] += dx[j];
-        cout << x[j] << endl;
+        outfile << x[j] << " " ;
       }
+     outfile << endl;
    }
-
-//       To do: a convergence study, or record a trajectory to make a movie, call pywrite to send it to python
+  outfile.close();
 
   return 0;
  }
