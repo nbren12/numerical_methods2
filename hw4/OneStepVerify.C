@@ -18,6 +18,9 @@ using namespace std;
 
 int main(int argc, char** argv){
 
+    cout << "One Step Verify:" << endl;
+    cout << "For order 3 RK method, we expect the ratio to be 2^4=16" << endl << endl;
+
     double *x0, *dx, *x_exact;
     double *v1, *v2, *v3;
     double h, hTmp;
