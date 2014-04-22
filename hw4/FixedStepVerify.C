@@ -35,12 +35,12 @@ int main(){
     double *x, *dx, *x_exact;
     double *v1, *v2, *v3;
 
-    dx = new double(n);
-    x = new double(n);
-    x_exact = new double(n);
-    v1 = new double(n);
-    v2 = new double(n);
-    v3 = new double(n);
+    dx = new double[n];
+    x = new double[n];
+    x_exact = new double[n];
+    v1 = new double[n];
+    v2 = new double[n];
+    v3 = new double[n];
 
     int nt = 10;
     int ntTmp = 10;

@@ -25,18 +25,19 @@ int main(int argc, char** argv){
     double *v1, *v2, *v3;
     double h, hTmp;
     double err0, err1;
+    int n = 2;
     int nIter;
 
     h  = 4.0;
     nIter = 20;
 
-    dx = new double(2);
-    x0 = new double(2);
-    x_exact = new double(2);
+    dx = new double[n];
+    x0 = new double[n];
+    x_exact = new double[n];
 
-    v1 = new double(2);
-    v2 = new double(2);
-    v3 = new double(2);
+    v1 = new double[n];
+    v2 = new double[n];
+    v3 = new double[n];
 
     init(x0);
 
