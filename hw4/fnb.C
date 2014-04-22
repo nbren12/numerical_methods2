@@ -33,7 +33,7 @@ double *vy;
 double *ax;           // x and y components of acceleration
 double *ay;
 
-#define p 3                            // p is the number of bodies
+#define p 2                            // p is the number of bodies
 
 void init( double x0[])  {             // return the initial configuration
 
@@ -43,18 +43,18 @@ void init( double x0[])  {             // return the initial configuration
   double *vx0;
   double *vy0;
 
-  rx0 = new double (p);
-  ry0 = new double (p);
-  vx0 = new double (p);
-  vy0 = new double (p);
-  m   = new double (p);
+  rx0 = new double [p];
+  ry0 = new double [p];
+  vx0 = new double [p];
+  vy0 = new double [p];
+  m   = new double [p];
 
-  rx = new double (p);       // allocations for the arrays used in the dynamics
-  ry = new double (p);
-  vx = new double (p);
-  vy = new double (p);
-  ax = new double (p);
-  ay = new double (p);
+  rx = new double [p];       // allocations for the arrays used in the dynamics
+  ry = new double [p];
+  vx = new double [p];
+  vy = new double [p];
+  ax = new double [p];
+  ay = new double [p];
 
 //   Problem specific, give the masses and initial positions and velocities individually
 //   This is the part you have to change to do a different simulation
@@ -71,11 +71,11 @@ void init( double x0[])  {             // return the initial configuration
   vy0[1] = -.05;
   m[1]   = 2.;
 
-  rx0[2] = 0.;
-  ry0[2] = 0.;
-  vx0[2] = 0.;
-  vy0[2] = 0.;
-  m[2]   = 4.;
+  // rx0[2] = 0.;
+  // ry0[2] = 0.;
+  // vx0[2] = 0.;
+  // vy0[2] = 0.;
+  // m[2]   = 4.;
 
 //    Copy, is not simulation specific
 

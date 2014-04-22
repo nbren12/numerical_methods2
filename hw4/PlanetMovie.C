@@ -24,26 +24,32 @@ int main(){
 
   int p = 2;
   int n = 4*p;
-  double T = 4.0;
-  double dt = .1;
+  double T = 1.0;
+  double dt = .01;
 
   double *x;             //  The computed configuration at time t
   double *dx;            //  Delta x = computed change for dt
   double *v1, *v2, *v3;
-  x  = new double(n);
-  v1 = new double(n);
-  v2 = new double(n);
-  v3 = new double(n);
-  dx = new double(n);
+  x  = new double[n];
+  v1 = new double[n];
+  v2 = new double[n];
+  v3 = new double[n];
+  dx = new double[n];
 
   init(x);               // Initialize the time step routine once
 
+  // open an output file
   ofstream outfile;
   outfile.open("nbody.txt");
+
+  // output header info
   outfile << p << " " << T << " " << dt << endl;
 
   int nt = (int) T / dt;           // Compute the number of time steps from the final time and dt.
+
+  // Do Time Stepping
   for ( int i = 0; i < nt; i++){
+     // cout << "T = " << dt* i << endl;
      RK3( dx, x, dt, n, v1, v2, v3);
      for ( int j = 0; j < n; j++){
         x[j] += dx[j];
