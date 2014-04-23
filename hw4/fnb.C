@@ -21,6 +21,7 @@ f:   computes the time derivatives of the positions and velocities
 */
 
 #include <iostream>
+#include <random>
 #include <math.h>
 using namespace std;
 
@@ -33,7 +34,7 @@ double *vy;
 double *ax;           // x and y components of acceleration
 double *ay;
 
-#define p 2                            // p is the number of bodies
+#define p 40                            // p is the number of bodies
 
 void init( double x0[])  {             // return the initial configuration
 
@@ -59,23 +60,46 @@ void init( double x0[])  {             // return the initial configuration
 //   Problem specific, give the masses and initial positions and velocities individually
 //   This is the part you have to change to do a different simulation
 
-  rx0[0] = 1.;
+  rx0[0] = 0.;
   ry0[0] = 0.;
   vx0[0] = 0.;
-  vy0[0] = .05;
-  m[0]   = 2.;
+  vy0[0] = 0.0;
+  m[0]   = 100.;
 
-  rx0[1] = -1.;
+  /* rx0[1] = -1.; */
+  /* ry0[1] = 0.; */
+  /* vx0[1] = 0.; */
+  /* vy0[1] = -.05; */
+  /* m[1]   = 2.; */
+
+  rx0[1] = -5.;
   ry0[1] = 0.;
   vx0[1] = 0.;
-  vy0[1] = -.05;
-  m[1]   = 2.;
+  vy0[1] = +6;
+  m[1]   = 1.;
 
-  // rx0[2] = 0.;
-  // ry0[2] = 0.;
-  // vx0[2] = 0.;
-  // vy0[2] = 0.;
-  // m[2]   = 4.;
+  /* rx0[2] = 0.; */
+  /* ry0[2] = 0.; */
+  /* vx0[2] = 0.; */
+  /* vy0[2] = 0.; */
+  /* m[2]   = 1000.; */
+  default_random_engine generator;
+  uniform_real_distribution<double> distribution(-10.0,10.0);
+  for (int i = 0; i < p/2;  i++)
+  {
+      rx0[i] = distribution(generator);
+      ry0[i] = distribution(generator);
+      vx0[i] = -ry0[i];//distribution(generator);
+      vy0[i] = rx0[0];
+      m[i]   = 2.;
+
+
+      rx0[p-1-i] = -rx0[i];
+      ry0[p-1-i] = -ry0[i];
+      vx0[p-1-i] = -vx0[i];
+      vy0[p-1-i] = -vy0[i];
+      m[p-i]   = 2.;
+  }
 
 //    Copy, is not simulation specific
 
