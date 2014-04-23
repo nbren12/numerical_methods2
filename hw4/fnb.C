@@ -37,7 +37,7 @@ double *ay;
 // #define p 2                            // p is the number of bodies
 
 
-int p = 3;
+int p = 4;
 
 void init( double x0[])  {             // return the initial configuration
 
@@ -97,32 +97,43 @@ void init( double x0[])  {             // return the initial configuration
             vx0[1] = 0.;
             vy0[1] = +.8;
             m[1]   = 2.;
-            // rx0[0] = -2;
-            // ry0[0] = 0.;
-            // vx0[0] = 0.;
-            // vy0[0] = -.8;
-            // m[0]   = 2.;
 
-
-            // rx0[1] = +2;
-            // ry0[1] = 0.;
-            // vx0[1] = 0.;
-            // vy0[1] = +.8;
-            // m[1]   = 2.;
-
-            rx0[2] = -2.1;
-            ry0[2] = 0.;
-            vx0[2] = 0.;
-            vy0[2] = +4.0;
-            m[2]   = .01;
 
             rx0[2] = 0.001 ;
             ry0[2] = 0.001 ;
             vx0[2] = 0.0 ;
             vy0[2] = 0.0 ;
-            m[2]   = 0.0 ;
+            m[2]   = 0.01 ;
             break;
 
+        case 4:
+            cout << "4 body" << endl;
+            rx0[0] = .5;
+            ry0[0] = 0.;
+            vx0[0] = 0.;
+            vy0[0] = -.8;
+            m[0]   = 2.;
+
+
+            rx0[1] = -.5;
+            ry0[1] = 0.;
+            vx0[1] = 0.;
+            vy0[1] = +.8;
+            m[1]   = 2.;
+
+
+            rx0[2] = 0.1 ;
+            ry0[2] = 0.1 ;
+            vx0[2] = 1.0 ;
+            vy0[2] = 1.0 ;
+            m[2]   = 0.1 ;
+
+            rx0[3] = -0.1 ;
+            ry0[3] = -0.1 ;
+            vx0[3] = -1.00 ;
+            vy0[3] = -1.0 ;
+            m[3]   = 0.1 ;
+            break;
 
         case 10:
             cout << "Doing random init cond" << endl;
