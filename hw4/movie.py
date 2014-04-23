@@ -9,9 +9,16 @@ particles = ro.particles
 
 nt, p,_ = particles.shape
 
-xLim = [-2, 2]
-yLim = [-2, 2]
+xmin = particles[:,:,0].min()
+xmax = particles[:,:,0].max()
+ymin = particles[:,:,1].min()
+ymax = particles[:,:,1].max()
 
+xLim = [xmin , xmax]
+yLim = [ymin , ymax]
+
+xLim = [ -10.0, 10.0 ]
+yLim = [ -10.0, 10.0 ]
 
 # Initial Plot
 frame = 0
@@ -27,9 +34,9 @@ for pp in xrange(p):
     point, = plt.plot(x, y, 'o')
     points.append((pp, point))
 
-textStr = 'frame %i, elapsed time %f'%(frame, frame * dt )
+textStr = 'frame %i, elapsed time %0.2f'%(frame, frame * dt )
 
-textbox = plt.text(0, 1.9, textStr)
+textbox = plt.title(textStr)
 
 def updatefig(frame):
     print frame
@@ -37,7 +44,7 @@ def updatefig(frame):
         x = particles[frame,pp,0 ]
         y = particles[frame,pp,1 ]
         point.set_data(x, y)
-        textStr = 'frame %i, elapsed time %f'%(frame, frame * dt )
+        textStr = 'frame %i, elapsed time %0.2f'%(frame, frame * dt )
         textbox.set_text(textStr)
 
 ani = animation.FuncAnimation(fig, updatefig, xrange(nt), interval=75, blit=True)
