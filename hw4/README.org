@@ -98,7 +98,7 @@ involved the dynamics of 4 objects:
   inital velocities \((0, \mp .5)\)
 - Two lighter objects with mass \(m=.1\) positioned close to the
   origin at \((\pm .1, \pm .1)\) with respective
-  inital velocities \((\pm 1, \pm)\)
+  inital velocities \((\pm 1, \pm 1)\)
 
 At long time, the two lighter objects /sling-shot/ away from the
 center of the domain, while the two heavier objects develop a stable
