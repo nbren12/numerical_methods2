@@ -40,7 +40,7 @@ int main(){
 
   // open an output file
   ofstream outfile;
-  outfile.open("nbody.py");
+  outfile.open("runOutput.py");
 
   // output header info
   outfile << "p = " << p << "; T=  " << T << "; dt = " << dt << endl;
