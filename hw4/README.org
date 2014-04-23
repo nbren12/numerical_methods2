@@ -106,4 +106,5 @@ elliptic orbit. Moreover, this elliptic orbit is much closer to the
 origin, which represents a conversion of the large objects' potential energy
 to the kinetic energy of the smaller objects. 
 
-The video is available here: [[file:nbody.mp4][Slingshot movie]].
+The video is available here: [[https://raw.githubusercontent.com/nbren12/numerical_methods2/master/hw4/nbody.mp4]].
+
