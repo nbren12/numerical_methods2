@@ -1,0 +1,109 @@
+#+TITLE: Assn 4
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+OPTIONS: toc:nil num:0
+
+The code for this assignment is available on my Github page at
+[[https://github.com/nbren12/numerical_methods2]], within the =hw4= directory.
+
+* Problem 8: One Step Unit Test 
+  
+
+I coded this unittest with the specified ODE, and plotted the error
+ratio from the book: \[ Error(2\Delta t) / Error(\Delta t).\] Here is
+the output:
+
+#+BEGIN_SRC sh :results output :exports both
+make OneStepVerify
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+./OneStepVerifyExecutable One Step Verify: For order 3 RK method, we
+expect the ratio to be 2^4=16
+
+Step Size is 1 Error is 17.0984 Ratio is 3763.81 Step Size is 0.5
+Error is 0.170099 Ratio is 100.521 Step Size is 0.25 Error is
+0.0104295 Ratio is 16.3094 Step Size is 0.125 Error is 0.00065161
+Ratio is 16.0057 Step Size is 0.0625 Error is 4.07008e-05 Ratio is
+16.0097 Step Size is 0.03125 Error is 2.54331e-06 Ratio is 16.0031
+Step Size is 0.015625 Error is 1.58948e-07 Ratio is 16.0008 Step Size
+is 0.0078125 Error is 9.93415e-09 Ratio is 16.0002 Step Size is
+0.00390625 Error is 6.20882e-10 Ratio is 16.0001 Step Size is
+0.00195312 Error is 3.8805e-11 Ratio is 16 Step Size is 0.000976562
+Error is 2.42528e-12 Ratio is 16.0002 Step Size is 0.000488281 Error
+is 1.51545e-13 Ratio is 16.0037 Step Size is 0.000244141 Error is
+9.4369e-15 Ratio is 16.0588 Step Size is 0.00012207 Error is
+5.55112e-16 Ratio is 17 Step Size is 6.10352e-05 Error is 1.35525e-20
+Ratio is 40960 Step Size is 3.05176e-05 Error is 6.77626e-21 Ratio is
+2 Step Size is 1.52588e-05 Error is 3.38813e-21 Ratio is 2 Step Size
+is 7.62939e-06 Error is 1.69407e-21 Ratio is 2 Step Size is 3.8147e-06
+Error is 8.47033e-22 Ratio is 2
+#+end_example
+
+It is easy to see that when the errors are larger than round-off, the
+ratio converges to \(2^4 = 16\), which is the expected value for the
+one-step error of a third order scheme. Once the errors descend below
+numerical error, the ratios cease to be meaningful.
+
+* Problem 9: Fixed Step Unit Test 
+  
+
+I coded this unittest, and plotted the ratio from the book:
+
+#+BEGIN_SRC sh :results output :exports both
+make FixedStepVerify
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+./OneStepVerifyExecutable
+One Step Verify:
+For order 3 RK method, we expect the ratio to be 2^4=16
+
+Step Size is 1 Error is 17.0984 Ratio is 3763.81
+Step Size is 0.5 Error is 0.170099 Ratio is 100.521
+Step Size is 0.25 Error is 0.0104295 Ratio is 16.3094
+Step Size is 0.125 Error is 0.00065161 Ratio is 16.0057
+Step Size is 0.0625 Error is 4.07008e-05 Ratio is 16.0097
+Step Size is 0.03125 Error is 2.54331e-06 Ratio is 16.0031
+Step Size is 0.015625 Error is 1.58948e-07 Ratio is 16.0008
+Step Size is 0.0078125 Error is 9.93415e-09 Ratio is 16.0002
+Step Size is 0.00390625 Error is 6.20882e-10 Ratio is 16.0001
+Step Size is 0.00195312 Error is 3.8805e-11 Ratio is 16
+Step Size is 0.000976562 Error is 2.42528e-12 Ratio is 16.0002
+Step Size is 0.000488281 Error is 1.51545e-13 Ratio is 16.0037
+Step Size is 0.000244141 Error is 9.4369e-15 Ratio is 16.0588
+Step Size is 0.00012207 Error is 5.55112e-16 Ratio is 17
+Step Size is 6.10352e-05 Error is 1.35525e-20 Ratio is 40960
+Step Size is 3.05176e-05 Error is 6.77626e-21 Ratio is 2
+Step Size is 1.52588e-05 Error is 3.38813e-21 Ratio is 2
+Step Size is 7.62939e-06 Error is 1.69407e-21 Ratio is 2
+Step Size is 3.8147e-06 Error is 8.47033e-22 Ratio is 2
+#+end_example
+
+It is easy to see that when the errors are larger than round-off, the ratio
+converges to \(2^3 = 8\), which is the expected value for integrating a third
+order convergent scheme up to some fixed time \(T\).
+
+* Problem 10: N-body video
+  
+The dynamical allocation of arrays needed to be changed =new
+double(n)= to =new double[n]=. Also, the outputing of data, was
+changed slightly in the main method of =PlanetMovie.C=.
+
+The most interesting set of initial conditions that was tried,
+involved the dynamics of 4 objects:
+
+- Two massive objects with mass \(m=2\) positioned at \((\pm .5, 0)\) with respective
+  inital velocities \((0, \mp .5)\)
+- Two lighter objects with mass \(m=.1\) positioned close to the
+  origin at \((\pm .1, \pm .1)\) with respective
+  inital velocities \((\pm 1, \pm)\)
+
+At long time, the two lighter objects /sling-shot/ away from the
+center of the domain, while the two heavier objects develop a stable
+elliptic orbit. Moreover, this elliptic orbit is much closer to the
+origin, which represents a conversion of the large objects' potential energy
+to the kinetic energy of the smaller objects. 
+
+The video is available here: [[file:nbody.mp4][Slingshot movie]].
