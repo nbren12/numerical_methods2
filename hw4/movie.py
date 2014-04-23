@@ -14,11 +14,13 @@ xmax = particles[:,:,0].max()
 ymin = particles[:,:,1].min()
 ymax = particles[:,:,1].max()
 
-xLim = [xmin , xmax]
-yLim = [ymin , ymax]
+m = min(xmin ,ymin)
+M = max (xmax, ymax)
+xLim = [m, M]
+yLim = [m, M]
 
-xLim = [ -10.0, 10.0 ]
-yLim = [ -10.0, 10.0 ]
+# xLim = [ -10.0, 10.0 ]
+# yLim = [ -10.0, 10.0 ]
 
 # Initial Plot
 frame = 0
@@ -26,6 +28,7 @@ frame = 0
 fig, ax = plt.subplots(1)
 plt.axis(xLim + yLim)
 plt.grid('on')
+ax.set_aspect('equal')
 
 points = []
 for pp in xrange(p):
@@ -48,4 +51,4 @@ def updatefig(frame):
         textbox.set_text(textStr)
 
 ani = animation.FuncAnimation(fig, updatefig, xrange(nt), interval=75, blit=True)
-ani.save('nbody.mp4')
+ani.save('nbody.mp4', bitrate=1024)
