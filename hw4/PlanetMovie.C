@@ -40,12 +40,15 @@ int main(){
 
   // open an output file
   ofstream outfile;
-  outfile.open("nbody.txt");
+  outfile.open("nbody.py");
 
   // output header info
-  outfile << p << " " << T << " " << dt << endl;
+  outfile << "p = " << p << "; T=  " << T << "; dt = " << dt << endl;
 
   int nt = (int) T / dt;           // Compute the number of time steps from the final time and dt.
+
+  outfile << "import numpy as np" << endl;
+  outfile << "dat = np.array([";
 
   // Do Time Stepping
   for ( int i = 0; i < nt; i++){
@@ -53,10 +56,12 @@ int main(){
      RK3( dx, x, dt, n, v1, v2, v3);
      for ( int j = 0; j < n; j++){
         x[j] += dx[j];
-        outfile << x[j] << " " ;
+        outfile << x[j] << "," ;
       }
-     outfile << endl;
    }
+  outfile << "])" << endl;
+  outfile << "particles = dat.reshape((-1, p, 4))"<< endl;
+  outfile << "del dat" << endl;
   outfile.close();
 
   return 0;
