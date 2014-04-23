@@ -23,8 +23,7 @@ CCFLAGS = -O2
 
 LINKER  =  g++       # linker, use C++ linker 
 
-PYTHON  = /Users/jg/anaconda/bin/python
-FFMPEG  = /Users/jg/bin/ffmpeg           
+PYTHON  = python
 
 #          Lists of files
 
@@ -79,9 +78,17 @@ OneStepVerifyExecutable: OneStepVerify.o f2D.o RK3.o
 FixedStepVerifyExecutable: FixedStepVerify.o f2D.o RK3.o
 	$(CPP)  $(CCFLAGS) FixedStepVerify.o f2D.o RK3.o -o FixedStepVerifyExecutable
 
+# Movie
+
+runOutput.py : nBodyExecutable
+	./nBodyExecutable
+
+nbody.mp4 : movie.py runOutput.py
+	$(PYTHON) $<
+
 #               Running executables
 
-.PHONY: nBodyMovie OneStepVerify FixedStepVerify tarball UnitTest
+.PHONY: nBodyMovie OneStepVerify FixedStepVerify tarball UnitTest clean
 
 nBodyMovie: nBodyExecutable     #  If the code has changed, you have to re-run it.
 	./nBodyExecutable
@@ -98,5 +105,7 @@ UnitTest: FixedStepVerify OneStepVerify
 tarball: $( All_SOURCES)  
 	tar -cvf Assignment4.tar $(ALL_SOURCES) 
 
+clean:
+	rm -f  nBodyExecutable OneStepVerifyExecutable FixedStepVerifyExecutable Assignment4.tar nbody.mp4 *.o runOutput.py runOutput.pyc
 
 
