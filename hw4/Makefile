@@ -19,7 +19,7 @@ SUFFIXES :=
 CC      = gcc             #  C
 CPP     = g++             #  C++ 
 
-CCFLAGS = -O2       
+CCFLAGS = -O2  -std=gnu++0x    
 
 LINKER  =  g++       # linker, use C++ linker 
 
@@ -108,4 +108,6 @@ tarball: $( All_SOURCES)
 clean:
 	rm -f  nBodyExecutable OneStepVerifyExecutable FixedStepVerifyExecutable Assignment4.tar nbody.mp4 *.o runOutput.py runOutput.pyc
 
+movie: nbody.mp4 
+	mplayer $<
 

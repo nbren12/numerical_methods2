@@ -22,7 +22,7 @@ int main(){
 
   cout << "hello, n bodies.  Interact." << endl;
 
-  int p = 40;
+  int p = 2;
   int n = 4*p;
   double T = 10.0;
   double dt = .05;
