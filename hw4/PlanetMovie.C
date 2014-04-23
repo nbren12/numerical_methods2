@@ -22,10 +22,9 @@ int main(){
 
   cout << "hello, n bodies.  Interact." << endl;
 
-  int p = 2;
   int n = 4*p;
-  double T = 10.0;
-  double dt = .05;
+  double T = 1.0;
+  double dt = .01;
 
   double *x;             //  The computed configuration at time t
   double *dx;            //  Delta x = computed change for dt

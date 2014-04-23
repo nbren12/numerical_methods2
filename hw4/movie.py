@@ -16,6 +16,10 @@ ymax = particles[:,:,1].max()
 
 m = min(xmin ,ymin)
 M = max (xmax, ymax)
+
+
+m = -1
+M = 1
 xLim = [m, M]
 yLim = [m, M]
 

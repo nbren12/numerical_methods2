@@ -34,12 +34,15 @@ double *vy;
 double *ax;           // x and y components of acceleration
 double *ay;
 
-#define p 2                            // p is the number of bodies
+// #define p 2                            // p is the number of bodies
+
+
+int p = 3;
 
 void init( double x0[])  {             // return the initial configuration
 
 
-    int exp_tag = 0 ;
+    int exp_tag = p;
     cout << "initialize" << endl;
     double *rx0;                         // where the initial positions and speeds are set
     double *ry0;
@@ -64,7 +67,7 @@ void init( double x0[])  {             // return the initial configuration
 
 
     switch(exp_tag){
-        case 0:
+        case 2:
             cout << "Doing Simple elliptic orbit" << endl;
             rx0[0] = .5;
             ry0[0] = 0.;
@@ -80,8 +83,48 @@ void init( double x0[])  {             // return the initial configuration
             m[1]   = 2.;
             break;
 
+        case 3:
+            cout << "3 body" << endl;
+            rx0[0] = .5;
+            ry0[0] = 0.;
+            vx0[0] = 0.;
+            vy0[0] = -.8;
+            m[0]   = 2.;
 
-        case 1:
+
+            rx0[1] = -.5;
+            ry0[1] = 0.;
+            vx0[1] = 0.;
+            vy0[1] = +.8;
+            m[1]   = 2.;
+            // rx0[0] = -2;
+            // ry0[0] = 0.;
+            // vx0[0] = 0.;
+            // vy0[0] = -.8;
+            // m[0]   = 2.;
+
+
+            // rx0[1] = +2;
+            // ry0[1] = 0.;
+            // vx0[1] = 0.;
+            // vy0[1] = +.8;
+            // m[1]   = 2.;
+
+            rx0[2] = -2.1;
+            ry0[2] = 0.;
+            vx0[2] = 0.;
+            vy0[2] = +4.0;
+            m[2]   = .01;
+
+            rx0[2] = 0.001 ;
+            ry0[2] = 0.001 ;
+            vx0[2] = 0.0 ;
+            vy0[2] = 0.0 ;
+            m[2]   = 0.0 ;
+            break;
+
+
+        case 10:
             cout << "Doing random init cond" << endl;
             srand(1);
             for (int i = 0; i < p/2;  i++)

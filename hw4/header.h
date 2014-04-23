@@ -25,7 +25,8 @@ void exact_soln (double x[], double t);
 void RK3( double dx[], double x[],  double dt, int n,
           double v1[], double v2[], double v3[]);
 
-
+// Common parameters
+extern int p;
 
 
 
