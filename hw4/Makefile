@@ -27,7 +27,7 @@ PYTHON  = python
 
 #          Lists of files
 
-CPP_SOURCES = PlanetMovie.C fnb.C OneStepVerify.C f2D.C RK3.C
+CPP_SOURCES = PlanetMovie.C fnb.C OneStepVerify.C f2D.C RK3.C FixedStepVerify.C
 
 CPP_OBJECTS = $(patsubst %.C, %.o, $(CPP_SOURCES) )
 
@@ -36,7 +36,7 @@ CPP_OBJECTS = $(patsubst %.C, %.o, $(CPP_SOURCES) )
 
 FOR_ALL   = Makefile header.h
 
-ALL_SOURCES = $(CPP_SOURCES)  Makefile  header.h 
+ALL_SOURCES = $(CPP_SOURCES)  Makefile  header.h movie.py
 
 
 
