@@ -1,0 +1,592 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $A_{M}\in R^{d}\times R^{d}$
+\end_inset
+
+ be the negative discrete laplacian.
+ Then, the vectors, 
+\begin_inset Formula $\left(\mathbf{v}_{k}\right)_{j}=\frac{\sqrt{2}}{2}\delta_{k,j}+\frac{\sqrt{2}}{2}\delta_{-k,j}$
+\end_inset
+
+ for 
+\begin_inset Formula $1\leq k\leq n-1$
+\end_inset
+
+, and 
+\begin_inset Formula $\left(\mathbf{v}_{0}\right)_{j}=\delta_{0,j}$
+\end_inset
+
+ comprise an orthogonal basis for 
+\begin_inset Formula $k(A_{M},n)$
+\end_inset
+
+.
+ This is true because the following Lancos style iteration is easily verified
+ for the basis above
+\begin_inset Formula 
+\begin{eqnarray*}
+A\mathbf{v}_{k}=-\mathbf{v}_{k-1}-\mathbf{v}_{k+1}+2\mathbf{v}_{k} &  & 1\leq k\\
+A\mathbf{v}_{0}=-\sqrt{2}\mathbf{v}_{1}+2\mathbf{v}_{0} &  & k=0.
+\end{eqnarray*}
+
+\end_inset
+
+Therefore, for small 
+\begin_inset Formula $n=2m+1$
+\end_inset
+
+, 
+\begin_inset Formula $k(A,n)$
+\end_inset
+
+ consists only of even vectors where 
+\begin_inset Formula $x_{k}=x_{-k}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{k}=0$
+\end_inset
+
+ if 
+\begin_inset Formula $|k|>m$
+\end_inset
+
+.
+ Therefore, this question simply asks us to minimize the quadratric form
+ this restricted subspace.
+ Then the matrix vector product is defined as follows: 
+\begin_inset Formula 
+\[
+y_{j}=\left(Ax\right)_{j}=\sum_{k=-M}^{M}A_{jk}x_{k}=\sum_{k=-m}^{m}A_{jk}x_{k}.
+\]
+
+\end_inset
+
+While 
+\begin_inset Formula $y$
+\end_inset
+
+ may have nonzero components outside the subspace (i.e.
+ 
+\begin_inset Formula $y_{m+1}\ne0$
+\end_inset
+
+), we have that 
+\begin_inset Formula $x_{m+1}y_{m+1}=0y_{m+1}=0$
+\end_inset
+
+, so that 
+\begin_inset Formula $x^{t}Ax$
+\end_inset
+
+ has no contribution from these 
+\begin_inset Quotes eld
+\end_inset
+
+out-of-subspace
+\begin_inset Quotes erd
+\end_inset
+
+ components.
+ Therefore, the minimization problem reduces to:
+\begin_inset Formula 
+\[
+\lambda_{1,n}=\min_{x\in k(A,n)}\frac{x^{t}A_{M}x}{x^{t}x}=\min_{x\in k(A,n)}\frac{x^{t}A_{m}x}{x^{t}x}=\min_{x\in S}\frac{x^{t}A_{m}x}{x^{t}x}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $S=\{x\in\mathbb{R}^{n}|x_{k}=x_{-k}\}$
+\end_inset
+
+ is the space of symmetric n-dimensional vectors.
+ As it turns out, this is equivalent to finding the smallest eigenvalue
+ the negativediscrete laplacian operator with a Neumann boundary condition
+ at 
+\begin_inset Formula $k=0$
+\end_inset
+
+ and a Dirichlet boundary condition at 
+\begin_inset Formula $k=m+1$
+\end_inset
+
+.
+ The Neumann condition enforces the symmetricity of the eigenvector, and
+ the Dirichlet condition ensures that 
+\begin_inset Formula $x_{m+1}$
+\end_inset
+
+ vanishes.
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Therefore, the eigenvalue problem can be posed as 
+\begin_inset Formula 
+\[
+2x_{k}-x_{k+1}-x_{k-1}=\lambda x_{k},\quad x_{1}-x_{-1}=x_{m+1}=0.
+\]
+
+\end_inset
+
+Or alternatively, assuming 
+\begin_inset Formula $x_{0}=1$
+\end_inset
+
+, then we have, 
+\begin_inset Formula $x_{1}=2\alpha x_{0}-x_{-1}=2\alpha-x_{1}$
+\end_inset
+
+, so that 
+\begin_inset Formula $x_{1}=\alpha$
+\end_inset
+
+, which we summarize the here: 
+\begin_inset Formula 
+\begin{eqnarray*}
+x_{k+1} & = & 2\alpha x_{k}-x_{k-1}\\
+x_{0} & = & 1\\
+x_{1} & = & \alpha\\
+x_{m+1} & = & 0,
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\alpha=\lambda-2$
+\end_inset
+
+.
+ Then this three-term recurrence relation is the same as for the Chebychev
+ polynomials of the first kind 
+\begin_inset Formula $T_{k}(\alpha)$
+\end_inset
+
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+From wikipedia page for Chebychev polynomials and eignvectors of the discrete
+ laplacian
+\end_layout
+
+\end_inset
+
+.
+ Then, the dirichlet boundary at the end of the domain yields 
+\begin_inset Formula $T_{m+1}(\alpha)=x_{m+1}=0$
+\end_inset
+
+, so that the eigenvalues are related to roots of the degree 
+\begin_inset Formula $m+1$
+\end_inset
+
+ Chebychev polynomial.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+As we saw in class, 
+\begin_inset Formula $T_{n}(\cos(\theta))=\cos(n\theta)$
+\end_inset
+
+, so that 
+\begin_inset Formula $T_{m+1}(\cos\theta)=\cos((m+1)\theta)=0$
+\end_inset
+
+ where 
+\begin_inset Formula $\cos\theta=\alpha$
+\end_inset
+
+.
+ This means that 
+\begin_inset Formula $(m+1)\theta=\frac{\pi(2k+1)}{2}$
+\end_inset
+
+ for any integer 
+\begin_inset Formula $k$
+\end_inset
+
+, so that
+\begin_inset Formula 
+\[
+\lambda_{k}=2-2\alpha=2-2\cos\left(\frac{\pi(2k+1)}{2m+2}\right)=4\sin^{2}\left(\frac{\pi(2k+1)}{4m+4}\right)
+\]
+
+\end_inset
+
+ are the eigenvalues we are looking for, and the eigenvectors associated
+ with these, properly normalized, are indeed symmetric about the middle.
+ Finally, 
+\begin_inset Formula 
+\[
+\lambda_{1,n}=\min_{0\leq k\leq m}\lambda_{k}=4\sin^{2}\left(\frac{\pi}{4m+4}\right)=4\sin^{2}\left(\frac{\pi}{2n}\right).
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+On the other hand, 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+ the smallest eigenvalue of the full matrix 
+\begin_inset Formula $A_{M}$
+\end_inset
+
+, which corresponds to the minimum eigenvalue of the discrete laplacian
+ with dirichlet boundary conditions: 
+\begin_inset Formula $x_{-M-1}=x_{M+1}=0$
+\end_inset
+
+.
+ According to wikipedia, with a similar calculation, the smallest eigenvalue
+ is 
+\begin_inset Formula 
+\[
+\lambda_{1}=4\sin^{2}\left(\frac{\pi}{2(d+1)}\right).
+\]
+
+\end_inset
+
+Finally, if we make a small angle approximation, we see that 
+\begin_inset Formula 
+\[
+\frac{\lambda_{1,2m+1}}{\lambda_{1}}\approx\frac{d+1}{n}.
+\]
+
+\end_inset
+
+ If 
+\begin_inset Formula $d\gg n$
+\end_inset
+
+, then 
+\begin_inset Formula $\lambda_{1,n}$
+\end_inset
+
+ is a very poor approximation indeed.
+ 
+\end_layout
+
+\begin_layout Enumerate
+An example of ill-conditioning
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The optimal step length can be found using the first-derivative test 
+\begin_inset Formula 
+\begin{eqnarray}
+0 & = & \frac{dF(x_{n}+t_{n}p_{n})}{dt}=p_{n}\cdot\nabla F(x_{n}+t_{n}p_{n})\nonumber \\
+ & = & p_{n}\cdot\left[A(x_{n}+t_{n}p_{n})-b\right]\label{eq:2a-orth}\\
+ & = & p_{n}^{t}\left[p_{n}+t_{n}Ap_{n}\right].\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+So that 
+\begin_inset Formula $t_{n}=-\frac{p_{n}^{t}p_{n}}{p_{n}^{t}Ap_{n}}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Using the formulas gives 
+\begin_inset Formula $p_{n+1}=Ax_{n+1}-b=A(x_{n}+t_{n}p_{n})-b$
+\end_inset
+
+, and comparing to 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:2a-orth"
+
+\end_inset
+
+ shows that
+\begin_inset Formula 
+\[
+0=\frac{dF(x_{n}+t_{n}p_{n})}{dt_{n}}=p_{n}\cdot p_{n+1},
+\]
+
+\end_inset
+
+as required.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The A-stable second order BDF formula
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Taylor expanding up to second order explicitly and gather terms gives:
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{1}{h}\left[c_{2}u(x-2h)+c_{1}u(x-h)+c_{0}u(x)\right] & = & \frac{1}{h}\left(c_{0}+c_{1}+c_{2}\right)u(x)-\left(2c_{2}+c_{1}\right)u'(x)\\
+ &  & +h\left(2c_{2}+\frac{1}{2}c_{1}\right)+O(h^{2})
+\end{eqnarray*}
+
+\end_inset
+
+For this scheme to approximate 
+\begin_inset Formula $\partial_{x}u(x)$
+\end_inset
+
+, all the coefficients must vanish except for 
+\begin_inset Formula $2c_{2}+c_{1}=-1$
+\end_inset
+
+.
+ Which yiels the linear system
+\begin_inset Formula 
+\[
+\begin{array}{ccccc}
+c_{0} & +c_{1} & +c_{2} & = & 0\\
+0 & c_{1} & +2c_{2} & = & -1\\
+0 & c_{1}/2 & +2c_{2} & = & 0.
+\end{array}
+\]
+
+\end_inset
+
+Solving this yields 
+\begin_inset Formula $c_{0}=3/2$
+\end_inset
+
+, 
+\begin_inset Formula $c_{1}=-2$
+\end_inset
+
+, and 
+\begin_inset Formula $c_{2}=1/2$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The formula given in the problem description is incorrect because the coefficien
+t of 
+\begin_inset Formula $\Delta tf(x_{n})$
+\end_inset
+
+ cannot be unity.
+ In any case, using the coefficients from the previous problem yields
+\begin_inset Formula 
+\[
+f(x_{n})=\left(\frac{dx}{dt}\right)_{x=x_{n}}=\frac{1}{\Delta t}\left[\frac{3}{2}x_{n}-2x_{n-1}+\frac{1}{2}x_{n-2}\right]+O(\Delta t^{2}),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $h:=\Delta t$
+\end_inset
+
+.
+ Solving for 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+x_{n}=-\frac{1}{3}x_{n-2}+\frac{4}{3}x_{n-1}+\frac{2}{3}\Delta tf(x_{n})+O(\Delta t^{3}).
+\]
+
+\end_inset
+
+This scheme's uniqueness results from the invertiblity of the linear system
+ in part (a), and the reversibility of all the steps taken in this part.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $f(x_{n})=\lambda x_{n}$
+\end_inset
+
+, so we have that the difference equations from part (b) define a recurrence
+ relation
+\begin_inset Formula 
+\[
+(3-2\lambda\Delta t)x_{n}-4x_{n-1}+x_{n-2}=0.
+\]
+
+\end_inset
+
+Let 
+\begin_inset Formula $z=\lambda\Delta t$
+\end_inset
+
+, and the characteristic polynomial of this is 
+\begin_inset Formula 
+\[
+(3-2z)r^{2}-4r+1=0.
+\]
+
+\end_inset
+
+and A-stability requires that 
+\begin_inset Formula $|r|^{2}<1$
+\end_inset
+
+ (otherwise the scheme would grow unboundly with iteration).
+ The curve of marginal stability is defined by 
+\begin_inset Formula $|r|^{2}=1$
+\end_inset
+
+, and it partitions the complex plane into 
+\begin_inset Formula $S=\{z\in C|\mbox{A-stable}\}$
+\end_inset
+
+ and 
+\begin_inset Formula $U=\{z\in C|\mbox{ unstable}\}$
+\end_inset
+
+.
+ This is accomplished by assuming 
+\begin_inset Formula $r=e^{i\theta}$
+\end_inset
+
+, and solving the quadratic equation above for z:
+\begin_inset Formula 
+\[
+\partial S=\{-2e^{-i\theta}+\frac{1}{2}e^{-2i\theta}+\frac{3}{2}:\ \theta\in[0,2\pi)\}
+\]
+
+\end_inset
+
+It is easy to show that for 
+\begin_inset Formula $z\in\partial S$
+\end_inset
+
+, 
+\begin_inset Formula $\Re z=-2\cos(\theta)+\frac{1}{2}\cos(2\theta)+\frac{3}{2}\geq-2+\frac{1}{2}+\frac{3}{2}=0$
+\end_inset
+
+, so that 
+\begin_inset Formula $\partial S\subset\{z\in C:\ \Re z>0\}$
+\end_inset
+
+ .
+ Then, if we can show stability for some 
+\begin_inset Formula $\Re z<0$
+\end_inset
+
+, it must be the case that all 
+\begin_inset Formula $z$
+\end_inset
+
+ outside of region enclosed by 
+\begin_inset Formula $\partial S$
+\end_inset
+
+.
+ In particular, letting 
+\begin_inset Formula $z=-.5$
+\end_inset
+
+ gives 
+\begin_inset Formula $0=4r^{2}-4r+1=(2r-1)^{2}$
+\end_inset
+
+, so that 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $r=1/2<1$
+\end_inset
+
+.
+ In summary, 
+\begin_inset Formula $\Re z\leq0$
+\end_inset
+
+ implies that the scheme is stable, which is the definition of A-stability.
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
