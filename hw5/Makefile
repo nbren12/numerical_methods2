@@ -78,6 +78,8 @@ OneStepVerifyExecutable: OneStepVerify.o f2D.o RK4.o
 FixedStepVerifyExecutable: FixedStepVerify.o f2D.o RK4.o
 	$(CPP)  $(CCFLAGS) $^ -o FixedStepVerifyExecutable
 
+AdaptiveStepVerifyExecutable: AdaptiveStepVerify.o f2D.o RK4.o
+	$(CPP)  $(CCFLAGS) $^ -o $@
 # Movie
 
 runOutput.py : nBodyExecutable
@@ -88,7 +90,7 @@ nbody.mp4 : movie.py runOutput.py
 
 #               Running executables
 
-.PHONY: nBodyMovie OneStepVerify FixedStepVerify tarball UnitTest clean
+.PHONY: nBodyMovie OneStepVerify FixedStepVerify tarball UnitTest clean AdaptiveStepVerify
 
 nBodyMovie: nBodyExecutable     #  If the code has changed, you have to re-run it.
 	./nBodyExecutable
@@ -99,7 +101,10 @@ OneStepVerify: OneStepVerifyExecutable
 FixedStepVerify: FixedStepVerifyExecutable    
 	./FixedStepVerifyExecutable
 
-UnitTest: FixedStepVerify OneStepVerify
+AdaptiveStepVerify: AdaptiveStepVerifyExecutable    
+	./AdaptiveStepVerifyExecutable
+
+UnitTest: FixedStepVerify OneStepVerify AdaptiveStepVerify
 
 
 tarball: $( All_SOURCES)  

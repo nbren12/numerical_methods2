@@ -26,6 +26,52 @@ using namespace std;
 
 #include "header.h"
 
+double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double dt, int n,
+        double v1[], double v2[], double v3[], double v4[], double epsilon, int status){
+
+    // TODO: Remove redundant calculations of dx2 or dx using the status parameter
+    // status == -1 : dt in caller was too small
+    // status == 0 :  initial call
+    // status == 1 : dt in caller was too big
+
+    double R = 0; // residual
+    const int p = 4 ; // order of accuracy
+    double approx_eq_lower = .5;
+    double approx_eq_upper = 1.2;
+
+    // Calculate one step RK4
+    RK4( dx, x, dt, n, v1, v2, v3, v4);
+
+    // Calculate two step RK4
+    RK4( dx2, x, dt/2.0, n, v1, v2, v3, v4);
+    for (int j = 0; j < n ; j++)
+        x2[j] = x[j] + dx2[j];
+
+    RK4( dx2, x2, dt/2.0, n, v1, v2, v3, v4);
+
+    // Calculate Residual
+    for (int j = 0; j < n ; j++)
+        R += fabs(dx[j] - dx2[j]);
+
+    R /= 1.0 - pow ( 2.0, (double) -(p +1)); // Account for constant factor
+
+    // If statements
+    //
+    // If Too big then : half dt
+    // If too small AND if wasn't too big in previous call : double dt
+    // Else : return dt
+    if ( R > approx_eq_upper * dt * epsilon )
+    { // R is too big ... dt <- dt /2.0
+        adaptiveStep(dx, dx2, x, x2,dt / 2.0, n, v1, v2, v3, v4, epsilon, 1);
+
+    } else if ( ( R < approx_eq_lower * dt * epsilon ) and (status != 1) )
+    { // Don't double time step if caller time time step was too big
+        adaptiveStep(dx, dx2, x, x2,dt * 2.0, n, v1, v2, v3, v4, epsilon, -1);
+
+    } else {
+        return dt;
+    }
+}
 
 // Use the classic RK4 method described here http://en.wikipedia.org/wiki/Runge–Kutta_methods:
 //

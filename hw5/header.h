@@ -25,6 +25,8 @@ void RK4( double dx[], double x[],  double dt, int n,
         double v1[], double v2[], double v3[], double v4[]);
 
 
+double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double dt, int n,
+        double v1[], double v2[], double v3[], double v4[], double epsilon, int status);
 // Common parameters
 extern int p;
 

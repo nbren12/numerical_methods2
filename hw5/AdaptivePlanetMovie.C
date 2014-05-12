@@ -18,23 +18,27 @@ using namespace std;
 #include "header.h"
 
 
+
 int main(){
 
   cout << "hello, n bodies.  Interact." << endl;
 
   int n = 4*p;
-  double T = 4.0;
+  double Tfinal = 4.0;
+  double t = 0.0;
   double dt = .005;
 
-  double *x;             //  The computed configuration at time t
-  double *dx;            //  Delta x = computed change for dt
+  double *x, *x2;             //  The computed configuration at time t
+  double *dx, *dx2;            //  Delta x = computed change for dt
   double *v1, *v2, *v3, *v4;
   x  = new double[n];
+  x2  = new double[n];
   v1 = new double[n];
   v2 = new double[n];
   v3 = new double[n];
   v4 = new double[n];
   dx = new double[n];
+  dx2 = new double[n];
 
   init(x);               // Initialize the time step routine once
 
@@ -43,9 +47,9 @@ int main(){
   outfile.open("runOutput.py");
 
   // output header info
-  outfile << "p = " << p << "; T=  " << T << "; dt = " << dt << endl;
+  outfile << "p = " << p << "; T=  " << Tfinal << "; dt = " << dt << endl;
 
-  int nt = (int) T / dt;           // Compute the number of time steps from the final time and dt.
+  int nt = (int) Tfinal / dt;           // Compute the number of time steps from the final time and dt.
 
   outfile << "import numpy as np" << endl;
   outfile << "dat = np.array([";
@@ -53,14 +57,25 @@ int main(){
   double const eps = 10^-7;
 
   // Do Time Stepping
-  for ( int i = 0; i < nt; i++){
-     // cout << "T = " << dt* i << endl;
-     RK4( dx, x, dt, n, v1, v2, v3, v4);
+  while( t < Tfinal ){
+
+     // copy the data into x2
+     for (int j ; j < n ; j++)
+         x2[j] = x[j];
+
+     RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
+     for (int j ; j < n ; j++)
+         RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
+
+     for (int j = 0; j<n; j++)
+         x2[j]+=
+
+     RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
      for ( int j = 0; j < n; j++){
         x[j] += dx[j];
         outfile << x[j] << "," ;
       }
-   }
+  }
   outfile << "])" << endl;
   outfile << "particles = dat.reshape((-1, p, 4))"<< endl;
   outfile << "del dat" << endl;
