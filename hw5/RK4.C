@@ -26,8 +26,10 @@ using namespace std;
 
 #include "header.h"
 
-double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double dt, int n,
-        double v1[], double v2[], double v3[], double v4[], double epsilon, int status){
+double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[],
+        double dt, int n,
+        double v1[], double v2[], double v3[], double v4[],
+        double epsilon, int status, int verbose){
 
     // TODO: Remove redundant calculations of dx2 or dx using the status parameter
     // status == -1 : dt in caller was too small
@@ -35,12 +37,15 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double d
     // status == 1 : dt in caller was too big
 
     double R = 0; // residual
+    double xMag = 0; // magnitude of x
     const int p = 4 ; // order of accuracy
     double approx_eq_lower = .5;
     double approx_eq_upper = 1.2;
 
     // Calculate one step RK4
     RK4( dx, x, dt, n, v1, v2, v3, v4);
+    for (int j = 0; j < n ; j++)
+        x1[j] = x[j] + dx[j];
 
     // Calculate two step RK4
     RK4( dx2, x, dt/2.0, n, v1, v2, v3, v4);
@@ -48,10 +53,17 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double d
         x2[j] = x[j] + dx2[j];
 
     RK4( dx2, x2, dt/2.0, n, v1, v2, v3, v4);
+    for (int j = 0; j < n ; j++)
+        x2[j] = x2[j] + dx2[j];
 
     // Calculate Residual
+    R = 0.0;
+    xMag = 0.0;
     for (int j = 0; j < n ; j++)
-        R += fabs(dx[j] - dx2[j]);
+        {
+            R += fabs(x1[j] - x2[j]);
+            xMag += fabs(x[j]);
+        }
 
     R /= 1.0 - pow ( 2.0, (double) -(p +1)); // Account for constant factor
 
@@ -60,15 +72,24 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x2[], double d
     // If Too big then : half dt
     // If too small AND if wasn't too big in previous call : double dt
     // Else : return dt
+    if (verbose == 1)
+    {
+        cout << "R = " << R<<endl;
+        cout << "dt = " <<dt << endl;
+        cout << "epsilon = " <<epsilon << endl;
+        cout << "Upper = " << R / dt/ epsilon << endl;
+        cout << endl;
+    }
     if ( R > approx_eq_upper * dt * epsilon )
     { // R is too big ... dt <- dt /2.0
-        adaptiveStep(dx, dx2, x, x2,dt / 2.0, n, v1, v2, v3, v4, epsilon, 1);
+        adaptiveStep(dx, dx2, x, x1, x2,dt / 2.0, n, v1, v2, v3, v4, epsilon, 1, verbose);
 
-    } else if ( ( R < approx_eq_lower * dt * epsilon ) and (status != 1) )
+    } else if ( ( R < approx_eq_lower *dt* epsilon ) and (status != 1) )
     { // Don't double time step if caller time time step was too big
-        adaptiveStep(dx, dx2, x, x2,dt * 2.0, n, v1, v2, v3, v4, epsilon, -1);
+        adaptiveStep(dx, dx2, x, x1, x2,dt * 2.0, n, v1, v2, v3, v4, epsilon, -1, verbose);
 
     } else {
+        status = 0;
         return dt;
     }
 }
@@ -86,11 +107,6 @@ void RK4( double dx[], double x[],  double dt, int n,
   double *xt;    // "x temporary", to hold x + alpha*v1 or x + beta*v1 + gamma*v2
   xt = dx;       // WARNING: uses the same storage as dx
 
-  // dynamically allocate the arrays
-  /* double* v1 = new double[n]; */
-  /* double* v2 = new double[n]; */
-  /* double* v3 = new double[n]; */
-  /* double* v4 = new double[n]; */
 
   f( v1, x);                      // stage 1, v1 = dt* f(x)
   for ( int j = 0; j < n; j++){

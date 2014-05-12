@@ -19,20 +19,25 @@ using namespace std;
 int main(int argc, char** argv){
 
     cout << "Adaptive Step Verify:" << endl;
-    cout << "For order 4 RK method, we expect the ratio to be 2^5=32" << endl << endl;
+    cout << "Printing adapative output ..." <<endl <<endl;
 
-    double *x0, *dx, *x_exact;
+    double *x0, *dx, *dx2, *x_exact, *x, *x2, *x1;
     double *v1, *v2, *v3, *v4;
-    double h, hTmp;
+    double dt, hTmp;
     double err0, err1;
     int n = 2;
     int nIter;
 
-    h  = 4.0;
+    const double epsilon = 1e-7;
+
+    dt  = 1.0;
     nIter = 20;
 
     dx = new double[n];
-    x0 = new double[n];
+    dx2 = new double[n];
+    x = new double[n];
+    x2 = new double[n];
+    x1 = new double[n];
     x_exact = new double[n];
 
     v1 = new double[n];
@@ -40,11 +45,17 @@ int main(int argc, char** argv){
     v3 = new double[n];
     v4 = new double[n];
 
-    init(x0);
+    init(x);
+
+
+    dt = adaptiveStep( dx,  dx2,  x, x1, x2,  dt, n,
+            v1,  v2,  v3,  v4,
+            epsilon,  0, 1);
 
 
 
-
+    cout << "Upper should be between .5 and 1.2" << endl;
+    cout << "Final dt = " << dt << endl;
 
     return 0;
 }
