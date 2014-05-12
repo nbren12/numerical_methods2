@@ -44,8 +44,8 @@ ALL_SOURCES = $(CPP_SOURCES)  Makefile  header.h movie.py
 
 #   Planet movie 
 
-PlanetMovie.o:     PlanetMovie.C $(FOR_ALL)
-	$(CPP) -c $(CCFLAGS) PlanetMovie.C
+AdaptivePlanetMovie.o:     AdaptivePlanetMovie.C $(FOR_ALL)
+	$(CPP) -c $(CCFLAGS) $<
 
 fnb.o: fnb.C $(FOR_ALL)
 	$(CPP) -c $(CCFLAGS) fnb.C  
@@ -69,7 +69,7 @@ RK4.o: RK4.C $(FOR_ALL)
 #   Assemble the executables
 
 
-nBodyExecutable: PlanetMovie.o fnb.o RK4.o
+nBodyExecutable: AdaptivePlanetMovie.o fnb.o RK4.o
 	$(CPP)  $(CCFLAGS) $^ -o nBodyExecutable
 
 OneStepVerifyExecutable: OneStepVerify.o f2D.o RK4.o

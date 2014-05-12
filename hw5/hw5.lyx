@@ -588,5 +588,335 @@ It is easy to show that for
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+asdf
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+I modified the code to use the classic RK4 method available 
+at 
+\lang english
+
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
+\end_layout
+
+\end_inset
+
+.
+ Here is the output:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset listings
+lstparams "language=sh"
+inline false
+status collapsed
+
+\begin_layout Plain Layout
+
+make UnitTest
+\end_layout
+
+\begin_layout Plain Layout
+
+c++    -c -o FixedStepVerify.o FixedStepVerify.C
+\end_layout
+
+\begin_layout Plain Layout
+
+g++              -c -O2  -std=gnu++0x     f2D.C
+\end_layout
+
+\begin_layout Plain Layout
+
+g++              -c -O2  -std=gnu++0x     RK4.C
+\end_layout
+
+\begin_layout Plain Layout
+
+g++               -O2  -std=gnu++0x     FixedStepVerify.o f2D.o RK4.o -o FixedStepV
+erifyExecutable
+\end_layout
+
+\begin_layout Plain Layout
+
+./FixedStepVerifyExecutable
+\end_layout
+
+\begin_layout Plain Layout
+
+Fixed Step Verify:
+\end_layout
+
+\begin_layout Plain Layout
+
+For order 4 RK method, we expect the ratio to be 2^4=16
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.314159 Error is 0.102433 Ratio is 8.04441
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.15708 Error is 0.00576258 Ratio is 17.7756
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.0785398 Error is 0.000332538 Ratio is 17.3291
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.0392699 Error is 1.98926e-05 Ratio is 16.7166
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.019635 Error is 1.21394e-06 Ratio is 16.3869
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00981748 Error is 7.49173e-08 Ratio is 16.2037
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00490874 Error is 4.65184e-09 Ratio is 16.1049
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00245437 Error is 2.89771e-10 Ratio is 16.0535
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00122718 Error is 1.80709e-11 Ratio is 16.0352
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000613592 Error is 1.14862e-12 Ratio is 15.7327
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000306796 Error is 1.90914e-14 Ratio is 60.1641
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000153398 Error is 3.48206e-14 Ratio is 0.548279
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 7.6699e-05 Error is 3.80587e-15 Ratio is 9.14917
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 3.83495e-05 Error is 2.88596e-14 Ratio is 0.131875
+\end_layout
+
+\begin_layout Plain Layout
+
+g++              -c -O2  -std=gnu++0x     OneStepVerify.C
+\end_layout
+
+\begin_layout Plain Layout
+
+g++               -O2  -std=gnu++0x     OneStepVerify.o f2D.o RK4.o -o OneStepVerif
+yExecutable
+\end_layout
+
+\begin_layout Plain Layout
+
+./OneStepVerifyExecutable
+\end_layout
+
+\begin_layout Plain Layout
+
+One Step Verify:
+\end_layout
+
+\begin_layout Plain Layout
+
+For order 4 RK method, we expect the ratio to be 2^5=32
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 1 Error is 16.6383 Ratio is 1.24315e+09
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.5 Error is 0.0155552 Ratio is 1069.63
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.25 Error is 0.00105645 Ratio is 14.7241
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.125 Error is 3.73086e-05 Ratio is 28.3164
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.0625 Error is 1.19762e-06 Ratio is 31.1522
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.03125 Error is 3.7669e-08 Ratio is 31.7934
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.015625 Error is 1.17905e-09 Ratio is 31.9487
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.0078125 Error is 3.68599e-11 Ratio is 31.9872
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00390625 Error is 1.15199e-12 Ratio is 31.9968
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00195312 Error is 3.60005e-14 Ratio is 31.9993
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000976562 Error is 1.12519e-15 Ratio is 31.9951
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000488281 Error is 3.52366e-17 Ratio is 31.9323
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.000244141 Error is 1.13841e-18 Ratio is 30.9524
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 0.00012207 Error is 5.42101e-20 Ratio is 21
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 6.10352e-05 Error is 1.35525e-20 Ratio is 4
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 3.05176e-05 Error is 6.77626e-21 Ratio is 2
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 1.52588e-05 Error is 3.38813e-21 Ratio is 2
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 7.62939e-06 Error is 1.69407e-21 Ratio is 2
+\end_layout
+
+\begin_layout Plain Layout
+
+Step Size is 3.8147e-06 Error is 8.47033e-22 Ratio is 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset FormulaMacro
+\renewcommand{\dt}{\Delta t}
+\end_inset
+
+The residuals can be written in the following way:
+\begin_inset Formula 
+\begin{eqnarray*}
+S(x,\dt)-x(t+\dt) & = & R(x,\dt),\mbox{ and }\\
+S_{2}(x,\dt)-x(t+\dt) & = & R(x+R(x,\dt/2),\dt/2).
+\end{eqnarray*}
+
+\end_inset
+
+So that 
+\begin_inset Formula $S_{2}(x,\dt)-S(x,\dt)=R(x+R(x,\dt/2),\dt/2)-R(x,\dt)$
+\end_inset
+
+.
+ Thus, the usefulness of this error estimator relies on how the two-step
+ and one-step residuals relate.
+ Because our scheme is order p, we can write the residual as 
+\begin_inset Formula 
+\[
+R(x,\dt)=c(x,\dt)\dt^{p+1},\quad c=O(1).
+\]
+
+\end_inset
+
+Therefore, 
+\begin_inset Formula 
+\begin{eqnarray*}
+R(x+R(x,\dt/2),\dt/2) & = & R(x,\dt/2)+R(x,\dt/2)\cdot\nabla R(x,\dt/2)\\
+ & = & R(x,\dt/2)+O(\dt^{2p+2})\\
+ & = & c(x,\dt/2)\left(\frac{\dt}{2}\right)^{p+1}+O(\dt^{2p+2})\\
+ & = & \left(c(x,\dt)+\frac{\dt}{2}\partial_{t}c\right)\left(\frac{\dt}{2}\right)^{p+1}+O(\dt^{2p+2})\\
+ & = & c(x,\dt)\left(\frac{\dt}{2}\right)^{p+1}+O(\dt^{p+2})\\
+ & = & R(x,\dt)/2^{p+1}+O(\dt^{p+2}).
+\end{eqnarray*}
+
+\end_inset
+
+Putting it all together, we see that 
+\begin_inset Formula $S_{2}(x,\dt)-S(x,\dt)=(1-2^{-(p+1)})R(x,\dt)+O(\dt^{p+2})$
+\end_inset
+
+ as required.
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

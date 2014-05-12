@@ -50,6 +50,8 @@ int main(){
   outfile << "import numpy as np" << endl;
   outfile << "dat = np.array([";
 
+  double const eps = 10^-7;
+
   // Do Time Stepping
   for ( int i = 0; i < nt; i++){
      // cout << "T = " << dt* i << endl;
