@@ -32,6 +32,7 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x
         double epsilon, int status, int verbose){
 
     // TODO: Remove redundant calculations of dx2 or dx using the status parameter
+    // TODO: Figure out more memory efficient way to handle x, x1, and x2
     // status == -1 : dt in caller was too small
     // status == 0 :  initial call
     // status == 1 : dt in caller was too big

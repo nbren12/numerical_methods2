@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     int n = 2;
     int nIter;
 
-    const double epsilon = 1e-7;
+    const double epsilon = 1e-10;
 
     dt  = 1.0;
     nIter = 20;
@@ -54,7 +54,7 @@ int main(int argc, char** argv){
 
 
 
-    cout << "Upper should be between .5 and 1.2" << endl;
+    cout << "Upper should be less than 1.2, but not too much less" << endl;
     cout << "Final dt = " << dt << endl;
 
     return 0;
