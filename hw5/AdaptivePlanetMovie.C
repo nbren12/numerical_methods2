@@ -25,10 +25,10 @@ int main(){
 
     int n = 4*p;
 
-    const double epsilon = 1e0;
+    const double epsilon = 1e-10;
     double Tfinal = 4.0;
     double t = 0.0;
-    double dt = .005;
+    double dt = 1.0;
 
     double *x, *x1, *x2;             //  The computed configuration at time t
     double *dx, *dx2;            //  Delta x = computed change for dt

@@ -43,27 +43,26 @@ void adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[
     double approx_eq_lower = .5;
     double approx_eq_upper = 1.2;
     double dt = *h;
+    double *xt = x1 ; // dangerous
 
     // Calculate one step RK4
     RK4( dx, x, dt, n, v1, v2, v3, v4);
-    for (int j = 0; j < n ; j++)
-        x1[j] = x[j] + dx[j];
 
     // Calculate two step RK4
-    RK4( dx2, x,dt/2.0, n, v1, v2, v3, v4);
+    RK4( xt, x,dt/2.0, n, v1, v2, v3, v4);
     for (int j = 0; j < n ; j++)
-        x2[j] = x[j] + dx2[j];
+        x2[j] = x[j] + xt[j];
 
     RK4( dx2, x2, dt/2.0, n, v1, v2, v3, v4);
     for (int j = 0; j < n ; j++)
-        x2[j] = x2[j] + dx2[j];
+        dx2[j] += xt[j];
 
     // Calculate Residual
     R = 0.0;
     xMag = 0.0;
     for (int j = 0; j < n ; j++)
         {
-            R += fabs(x1[j] - x2[j]);
+            R += fabs(dx[j] - dx2[j]);
             xMag += fabs(x[j]);
         }
 
