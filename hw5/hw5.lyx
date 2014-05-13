@@ -64,6 +64,31 @@
 
 \begin_body
 
+\begin_layout Title
+Numerical Methods HW5
+\end_layout
+
+\begin_layout Author
+Noah D.
+ Brenowitz
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Enumerate
 Let 
 \begin_inset Formula $A_{M}\in R^{d}\times R^{d}$
@@ -353,25 +378,63 @@ An example of ill-conditioning
 
 \begin_deeper
 \begin_layout Enumerate
+Because 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+, we can see that
+\begin_inset Formula 
+\begin{eqnarray*}
+x_{n+1}-x & = & x_{n}-x+t_{n}p_{n}\\
+ & = & I(x_{n}-x)-t_{n}(Ax_{n}-b)\\
+ & = & I(x_{n}-x)-t_{n}A(x_{n}-x)\\
+ & = & (I-t_{n}A)(x_{n}-x).
+\end{eqnarray*}
+
+\end_inset
+
+So that 
+\begin_inset Formula $e_{n+1}=(I-t_{n}A)e_{n}.$
+\end_inset
+
+ The iteration is linear in the sense that future errors are related to
+ past errors by matrix multiplication.
+ However, 
+\begin_inset Formula $t_{n}$
+\end_inset
+
+ does depend on 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+, so the formula itself is nonlinear.
+\end_layout
+
+\begin_layout Enumerate
 The optimal step length can be found using the first-derivative test 
 \begin_inset Formula 
 \begin{eqnarray}
 0 & = & \frac{dF(x_{n}+t_{n}p_{n})}{dt}=p_{n}\cdot\nabla F(x_{n}+t_{n}p_{n})\nonumber \\
  & = & p_{n}\cdot\left[A(x_{n}+t_{n}p_{n})-b\right]\label{eq:2a-orth}\\
- & = & p_{n}^{t}\left[p_{n}+t_{n}Ap_{n}\right].\nonumber 
+ & = & p_{n}^{t}\left[-p_{n}+t_{n}Ap_{n}\right].\nonumber 
 \end{eqnarray}
 
 \end_inset
 
 So that 
-\begin_inset Formula $t_{n}=-\frac{p_{n}^{t}p_{n}}{p_{n}^{t}Ap_{n}}.$
+\begin_inset Formula $t_{n}=\frac{p_{n}^{t}p_{n}}{p_{n}^{t}Ap_{n}}$
 \end_inset
 
+, which is an inverse Rayleigh quotient bounded below by 
+\begin_inset Formula $\lambda_{max}(A)^{-1}$
+\end_inset
 
-\end_layout
+ and above by 
+\begin_inset Formula $\lambda_{min}(A)^{-1}$
+\end_inset
 
-\begin_layout Enumerate
-Using the formulas gives 
+.
+ Using the formulas gives 
 \begin_inset Formula $p_{n+1}=Ax_{n+1}-b=A(x_{n}+t_{n}p_{n})-b$
 \end_inset
 
@@ -391,6 +454,104 @@ reference "eq:2a-orth"
 \end_inset
 
 as required.
+\end_layout
+
+\begin_layout Enumerate
+As posted in the message board online, I will assume that this problem aims
+ to minimize 
+\begin_inset Formula $Q_{1}(x)=x_{1}^{2}+\epsilon x_{2}^{2}$
+\end_inset
+
+, which is a quadratic form 
+\begin_inset Formula $x^{t}Ax$
+\end_inset
+
+, where 
+\begin_inset Formula $A=\mbox{diag}([1,\epsilon])$
+\end_inset
+
+, moreover, assume that 
+\begin_inset Formula $\epsilon>0$
+\end_inset
+
+ so that the matrix is positive.
+ We that in 2d, that the orthogonality condition 
+\begin_inset Formula $p_{k}^{t}p_{k+1}=0$
+\end_inset
+
+ implies 
+\begin_inset Formula $p_{k}\propto p_{k+1}$
+\end_inset
+
+, which is a simple consequence of the dimension of the vector space.
+ Therefore, if we know 
+\begin_inset Formula $p_{0}$
+\end_inset
+
+, we can surmise the form of all the 
+\begin_inset Formula $p_{k}$
+\end_inset
+
+.
+ Without loss of generality, say that 
+\begin_inset Formula $p_{2k+1}=p^{\perp}$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{2k}=p$
+\end_inset
+
+, where 
+\begin_inset Formula $p:=p_{0}=(a,b)$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $t_{k}$
+\end_inset
+
+ are then
+\begin_inset Formula 
+\[
+p_{k+1}\propto Ax_{k+1}=A(x_{k}+t_{k}p_{k})
+\]
+
+\end_inset
+
+so that the orthogonality again gives 
+\begin_inset Formula $p_{k}^{t}A(x_{k}+t_{k}p_{k})=0$
+\end_inset
+
+...
+ or 
+\begin_inset Formula $t_{k}=-\frac{p_{k}^{t}Ax_{k}}{p_{k}^{t}Ap_{k}}$
+\end_inset
+
+.
+ For the example given, let 
+\begin_inset Formula $e_{0}=x_{0}=(a,1)$
+\end_inset
+
+, then 
+\begin_inset Formula $p_{0}=-(a,\epsilon)$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{1}=-(-\epsilon,a)$
+\end_inset
+
+.
+ Then,
+\begin_inset Formula 
+\begin{eqnarray*}
+t_{2k} & = & \frac{ax_{k,1}+\epsilon^{2}x_{k,2}}{a^{2}+\epsilon^{3}}\\
+t_{2k+1} & = & \frac{-\epsilon x_{k,1}+a\epsilon x_{k,2}}{\epsilon^{2}+\epsilon a^{2}}=\frac{-x_{k,1}+ax_{k,2}}{\epsilon+a^{2}}.
+\end{eqnarray*}
+
+\end_inset
+
+I believe the answer lies somewhere in this line of thinking, but I am unable
+ to go any further.
 \end_layout
 
 \end_deeper
@@ -589,15 +750,23 @@ It is easy to show that for
 
 \end_deeper
 \begin_layout Enumerate
-asdf
+Adaptive Time Step: (all the code is under version control at github 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+https://github.com/nbren12/numerical_methods2/tree/master/hw5
+\end_layout
+
+\end_inset
+
+)
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-I modified the code to use the classic RK4 method available 
-at 
-\lang english
-
+I modified the code to use the classic RK4 method available at 
 \begin_inset Flex URL
 status collapsed
 
@@ -870,7 +1039,7 @@ Step Size is 3.8147e-06 Error is 8.47033e-22 Ratio is 2
 
 \begin_layout Enumerate
 \begin_inset FormulaMacro
-\renewcommand{\dt}{\Delta t}
+\newcommand{\dt}{\Delta t}
 \end_inset
 
 The residuals can be written in the following way:
@@ -915,6 +1084,54 @@ Putting it all together, we see that
 \end_inset
 
  as required.
+\end_layout
+
+\begin_layout Enumerate
+I implemented this step using the recusive function 
+\begin_inset Quotes eld
+\end_inset
+
+adaptiveStep
+\begin_inset Quotes erd
+\end_inset
+
+ in the file 
+\begin_inset Quotes eld
+\end_inset
+
+RK4.C
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+This is implemented in the file 
+\begin_inset Quotes eld
+\end_inset
+
+AdaptivePlanetMovie.C
+\begin_inset Quotes erd
+\end_inset
+
+, where remade the movie using the same initial conditions as Homework3.
+ At the bottom of the video is a bar, whose length is proportional to 
+\begin_inset Formula $\log(\mbox{\# of time steps between plotting intervals)}$
+\end_inset
+
+.
+ This bar is longer when the timesteps are shorter, and vice versa.
+ From the video it is clear that the time step shortest when the planets
+ are close to each other, and that 
+\begin_inset Quotes eld
+\end_inset
+
+shooting-to-infinity
+\begin_inset Quotes erd
+\end_inset
+
+ happens.
 \end_layout
 
 \end_deeper
