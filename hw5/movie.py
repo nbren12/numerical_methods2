@@ -1,11 +1,24 @@
 import runOutput         as ro
+import tOutput           as to
 import numpy             as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from scipy.interpolate import interp1d # used for interolating the data onto the frame times I specify
+
+frame_times = np.linspace(0, 4.0, 200)
 
 
+
+############################################################
+#                      Nitty Gritty                        #
+############################################################
+
+t = to.dat.cumsum()
 dt = ro.dt
 particles = ro.particles
+
+frame_interpolator = interp1d(t, particles, axis=0, kind='linear')
+particles = frame_interpolator(frame_times)
 
 nt, p,_ = particles.shape
 
@@ -41,17 +54,17 @@ for pp in xrange(p):
     point, = plt.plot(x, y, 'o')
     points.append((pp, point))
 
-textStr = 'frame %i, elapsed time %0.2f'%(frame, frame * dt )
+textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
 
 textbox = plt.title(textStr)
-
+#
 def updatefig(frame):
     print frame
     for pp, point in points:
         x = particles[frame,pp,0 ]
         y = particles[frame,pp,1 ]
         point.set_data(x, y)
-        textStr = 'frame %i, elapsed time %0.2f'%(frame, frame * dt )
+        textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
         textbox.set_text(textStr)
 
 ani = animation.FuncAnimation(fig, updatefig, xrange(nt), interval=75, blit=True)

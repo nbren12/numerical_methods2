@@ -79,7 +79,6 @@ int main(){
         for (int j = 0 ; j < n; j++)
             x[j]+=dx2[j];
 
-        cout << dt <<endl;
         t+=dt;
 
         // Output to file
