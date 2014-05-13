@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from scipy.interpolate import interp1d # used for interolating the data onto the frame times I specify
 
-frame_times = np.linspace(0, 4.0, 400)
+frame_times = np.linspace(0, 4.0, 500)
 nt_line_y   = -1.05
 
 
@@ -66,7 +66,7 @@ for pp in xrange(p):
     point, = plt.plot(x, y, 'o')
     points.append((pp, point))
 
-textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
+textStr = 'elapsed time %0.2f'%( frame_times[frame])
 
 line_length =  np.log(timestep[frame]) / np.log(dt_max)
 nt_line, = plt.plot([m, m + line_length * (M-m) ], [nt_line_y, nt_line_y], '-', linewidth=3)
@@ -83,8 +83,8 @@ def updatefig(frame):
         line_length =  np.log(timestep[frame]) / np.log(dt_max)
         nt_line.set_data([m, m + line_length * (M-m) ], [nt_line_y, nt_line_y])
 
-        textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
+        textStr = 'elapsed time %0.2f'%( frame_times[frame])
         textbox.set_text(textStr)
 
 ani = animation.FuncAnimation(fig, updatefig, xrange(nt), interval=75, blit=True)
-ani.save('nbody.mp4', bitrate=1024)
+ani.save('nbody.mp4',  bitrate=1024)
