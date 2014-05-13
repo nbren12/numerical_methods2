@@ -1,6 +1,6 @@
 /*  Code for Assignment 4 of Numerical Methods II
 
- http://www.math.nyu.edu/faculty/goodman/teaching/NumericalMethodsII2014/index.html
+http://www.math.nyu.edu/faculty/goodman/teaching/NumericalMethodsII2014/index.html
 
 The author gives permission for anyone to use this publically posted
 code for any purpose.  The code was written for teaching, not research
@@ -21,65 +21,79 @@ using namespace std;
 
 int main(){
 
-  cout << "hello, n bodies.  Interact." << endl;
+    cout << "hello, n bodies.  Interact." << endl;
 
-  int n = 4*p;
-  double Tfinal = 4.0;
-  double t = 0.0;
-  double dt = .005;
+    int n = 4*p;
 
-  double *x, *x2;             //  The computed configuration at time t
-  double *dx, *dx2;            //  Delta x = computed change for dt
-  double *v1, *v2, *v3, *v4;
-  x  = new double[n];
-  x2  = new double[n];
-  v1 = new double[n];
-  v2 = new double[n];
-  v3 = new double[n];
-  v4 = new double[n];
-  dx = new double[n];
-  dx2 = new double[n];
+    const double epsilon = 1e0;
+    double Tfinal = 4.0;
+    double t = 0.0;
+    double dt = .005;
 
-  init(x);               // Initialize the time step routine once
+    double *x, *x1, *x2;             //  The computed configuration at time t
+    double *dx, *dx2;            //  Delta x = computed change for dt
+    double *v1, *v2, *v3, *v4;
 
-  // open an output file
-  ofstream outfile;
-  outfile.open("runOutput.py");
+    x  = new double[n];
+    x1  = new double[n];
+    x2  = new double[n];
+    v1 = new double[n];
+    v2 = new double[n];
+    v3 = new double[n];
+    v4 = new double[n];
+    dx = new double[n];
+    dx2 = new double[n];
 
-  // output header info
-  outfile << "p = " << p << "; T=  " << Tfinal << "; dt = " << dt << endl;
+    init(x);               // Initialize the time step routine once
 
-  int nt = (int) Tfinal / dt;           // Compute the number of time steps from the final time and dt.
+    // open an output file
+    ofstream outfile;
+    ofstream tfile;
 
-  outfile << "import numpy as np" << endl;
-  outfile << "dat = np.array([";
+    outfile.open("runOutput.py");
+    tfile.open("tOutput.py");
 
-  double const eps = 10^-7;
+    // output header info
+    outfile << "p = " << p << "; T=  " << Tfinal << "; dt = " << dt << endl;
 
-  // Do Time Stepping
-  while( t < Tfinal ){
+    int nt = (int) Tfinal / dt;           // Compute the number of time steps from the final time and dt.
 
-     // copy the data into x2
-     for (int j ; j < n ; j++)
-         x2[j] = x[j];
+    outfile << "import numpy as np" << endl;
+    outfile << "dat = np.array([";
 
-     RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
-     for (int j ; j < n ; j++)
-         RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
+    tfile << "import numpy as np" << endl;
+    tfile << "dat = np.array([";
 
-     for (int j = 0; j<n; j++)
-         x2[j]+=
 
-     RK4( dx, x, dt/2.0, n, v1, v2, v3, v4);
-     for ( int j = 0; j < n; j++){
-        x[j] += dx[j];
-        outfile << x[j] << "," ;
-      }
-  }
-  outfile << "])" << endl;
-  outfile << "particles = dat.reshape((-1, p, 4))"<< endl;
-  outfile << "del dat" << endl;
-  outfile.close();
+    for(int j =0 ; j < n ; j++)
+        outfile << x[j] << ",";
+    tfile << 0.0 << "," ;
 
-  return 0;
+    // Do Time Stepping
+    while( t < Tfinal ){
+
+        adaptiveStep( dx,  dx2,  x, x1, x2,  &dt, n,
+                v1,  v2,  v3,  v4,
+                epsilon,  0, 0);
+
+        for (int j = 0 ; j < n; j++)
+            x[j]+=dx2[j];
+
+        cout << dt <<endl;
+        t+=dt;
+
+        // Output to file
+        for(int j =0 ; j < n ; j++)
+            outfile << x[j] << ",";
+        tfile << dt << ",";
+
+    }
+
+    tfile << "])" << endl;
+    outfile << "])" << endl;
+    outfile << "particles = dat.reshape((-1, p, 4))"<< endl;
+    outfile << "del dat" << endl;
+    outfile.close();
+
+    return 0;
  }

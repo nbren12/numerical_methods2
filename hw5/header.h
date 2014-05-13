@@ -24,11 +24,11 @@ void exact_soln (double x[], double t);
 void RK4( double dx[], double x[],  double dt, int n,
         double v1[], double v2[], double v3[], double v4[]);
 
-double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[],
-        double dt, int n,
+
+void adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[],
+        double *dt, int n,
         double v1[], double v2[], double v3[], double v4[],
         double epsilon, int status, int verbose);
-
 // Common parameters
 extern int p;
 

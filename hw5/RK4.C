@@ -26,8 +26,8 @@ using namespace std;
 
 #include "header.h"
 
-double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[],
-        double dt, int n,
+void adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x2[],
+        double *h, int n,
         double v1[], double v2[], double v3[], double v4[],
         double epsilon, int status, int verbose){
 
@@ -42,6 +42,7 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x
     const int p = 4 ; // order of accuracy
     double approx_eq_lower = .5;
     double approx_eq_upper = 1.2;
+    double dt = *h;
 
     // Calculate one step RK4
     RK4( dx, x, dt, n, v1, v2, v3, v4);
@@ -49,7 +50,7 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x
         x1[j] = x[j] + dx[j];
 
     // Calculate two step RK4
-    RK4( dx2, x, dt/2.0, n, v1, v2, v3, v4);
+    RK4( dx2, x,dt/2.0, n, v1, v2, v3, v4);
     for (int j = 0; j < n ; j++)
         x2[j] = x[j] + dx2[j];
 
@@ -78,20 +79,21 @@ double adaptiveStep(double dx[], double dx2[], double x[], double x1[], double x
         cout << "R = " << R<<endl;
         cout << "dt = " <<dt << endl;
         cout << "epsilon = " <<epsilon << endl;
-        cout << "Upper = " << R / dt/ epsilon << endl;
+        cout << "Upper = " << R / xMag/ epsilon << endl;
         cout << endl;
     }
-    if ( R > approx_eq_upper * dt * epsilon )
+    if ( R > approx_eq_upper * xMag * epsilon )
     { // R is too big ... dt <- dt /2.0
-        adaptiveStep(dx, dx2, x, x1, x2,dt / 2.0, n, v1, v2, v3, v4, epsilon, 1, verbose);
+        *h /=2.0;
+        adaptiveStep(dx, dx2, x, x1, x2, h, n, v1, v2, v3, v4, epsilon, 1, verbose);
 
-    } else if ( ( R < approx_eq_lower *dt* epsilon ) and (status != 1) )
+    } else if ( ( R < approx_eq_lower *xMag * epsilon ) and (status != 1) )
     { // Don't double time step if caller time time step was too big
-        adaptiveStep(dx, dx2, x, x1, x2,dt * 2.0, n, v1, v2, v3, v4, epsilon, -1, verbose);
+        *h *= 2.0;
+        adaptiveStep(dx, dx2, x, x1, x2,h, n, v1, v2, v3, v4, epsilon, -1, verbose);
 
     } else {
         status = 0;
-        return dt;
     }
 }
 

@@ -30,7 +30,7 @@ int main(int argc, char** argv){
 
     const double epsilon = 1e-10;
 
-    dt  = 1.0;
+    dt  = 1e-10;
     nIter = 20;
 
     dx = new double[n];
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     init(x);
 
 
-    dt = adaptiveStep( dx,  dx2,  x, x1, x2,  dt, n,
+    adaptiveStep( dx,  dx2,  x, x1, x2,  &dt, n,
             v1,  v2,  v3,  v4,
             epsilon,  0, 1);
 
