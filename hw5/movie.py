@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from scipy.interpolate import interp1d # used for interolating the data onto the frame times I specify
 
-frame_times = np.linspace(0, 4.0, 200)
-
+frame_times = np.linspace(0, 4.0, 400)
+nt_line_y   = -1.05
 
 
 ############################################################
@@ -20,6 +20,18 @@ particles = ro.particles
 frame_interpolator = interp1d(t, particles, axis=0, kind='linear')
 particles = frame_interpolator(frame_times)
 
+# Get average time step over a given time interval
+timestep = [
+        (( bTime < t  ) & ( t < eTime )).sum()
+        for bTime, eTime
+        in zip(frame_times[0:-1], frame_times[1:])
+        ]
+
+timestep.append(timestep[-1])
+timestep = np.array(timestep)
+dt_max = timestep.max()
+
+# Begin plotting routine
 nt, p,_ = particles.shape
 
 xmin = particles[:,:,0].min()
@@ -34,7 +46,7 @@ M = max (xmax, ymax)
 m = -1
 M = 1
 xLim = [m, M]
-yLim = [m, M]
+yLim = [min(m, nt_line_y -.05), M]
 
 # xLim = [ -10.0, 10.0 ]
 # yLim = [ -10.0, 10.0 ]
@@ -56,6 +68,9 @@ for pp in xrange(p):
 
 textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
 
+line_length =  np.log(timestep[frame]) / np.log(dt_max)
+nt_line, = plt.plot([m, m + line_length * (M-m) ], [nt_line_y, nt_line_y], '-', linewidth=3)
+
 textbox = plt.title(textStr)
 #
 def updatefig(frame):
@@ -64,6 +79,10 @@ def updatefig(frame):
         x = particles[frame,pp,0 ]
         y = particles[frame,pp,1 ]
         point.set_data(x, y)
+
+        line_length =  np.log(timestep[frame]) / np.log(dt_max)
+        nt_line.set_data([m, m + line_length * (M-m) ], [nt_line_y, nt_line_y])
+
         textStr = 'frame %i, elapsed time %0.2f'%(frame, frame_times[frame])
         textbox.set_text(textStr)
 
